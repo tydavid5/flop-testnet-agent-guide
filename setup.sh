@@ -121,27 +121,68 @@ agent() {
   say ""
   say "Step 1. Make a DID. This makes a key pair on your machine. Save the seed somewhere private, like a password manager. Never put it in a repo, an issue, or a chat."
   if ask "Make a DID with examples/did-key.py?"; then
-    run_or_print python3 examples/did-key.py
-    say "If it printed a seed, save it now, where you chose. This script does not save it for you."
+    if [ "$DRY_RUN" = "0" ] && ! python3 -c "import cryptography" 2>/dev/null; then
+      say "The cryptography package is missing. Install it first: pip install cryptography"
+      say "Skipping the DID step. Run sh setup.sh --agent again after installing it."
+    else
+      run_or_print python3 examples/did-key.py
+      say "If it printed a seed, save it now, where you chose. This script does not save it for you."
+    fi
   fi
   say ""
   say "Step 2. Make an encrypted keystore for the owner, with the official CLI 0.8.2. The password goes in the shell only, never in a file. Do not use --show-secret, it prints the seed."
-  if ask "Make a keystore called ./agent.json?"; then
-    say "Set the password in the shell first: export FLOP_KEY_PASSWORD=<your password>"
-    run_or_print npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet keys generate --name agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
-    say "Keep ./agent.json safe. It is in .gitignore, so it will not be committed."
+  if [ -f ./agent.json ]; then
+    say "A file called ./agent.json already exists. This script will not overwrite it. Delete or rename it yourself first, or use the keystore you already have."
+  elif ask "Make a keystore called ./agent.json?"; then
+    if [ "$DRY_RUN" = "0" ] && [ -z "${FLOP_KEY_PASSWORD:-}" ]; then
+      say "FLOP_KEY_PASSWORD is not set in the shell. Set it first: export FLOP_KEY_PASSWORD=<your password>"
+      say "Skipping the keystore step. Run sh setup.sh --agent again after setting it."
+    else
+      say "Set the password in the shell first: export FLOP_KEY_PASSWORD=<your password>"
+      run_or_print npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet keys generate --name agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
+      say "Keep ./agent.json safe. It is in .gitignore, so it will not be committed."
+    fi
   fi
   say ""
   say "Step 3. Make a capped session key from that keystore. Approved limits are 5 FLOP per transaction and 50 FLOP per day. Do not use 3.5 and 35, those are proposed limits, not approved."
-  if ask "Create a session key with limits 5 and 50?"; then
-    run_or_print npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate AGENT_ADDRESS --tx-limit 5 --daily-cap 50 --ttl 86400 --json
-    say "Replace AGENT_ADDRESS with your agent wallet address first. The command above will fail until you do."
+  if [ ! -f ./agent.json ]; then
+    say "There is no ./agent.json keystore here, so this step cannot run. Do step 2 first, or point the command at your own keystore file."
+  elif [ "$DRY_RUN" = "0" ] && [ -z "${FLOP_KEY_PASSWORD:-}" ]; then
+    say "FLOP_KEY_PASSWORD is not set in the shell. Set it first, then run this step again."
+  elif ask "Create a session key with limits 5 and 50?"; then
+    say "This step needs your agent wallet address. The script will not run it with a placeholder."
+    if [ "$DRY_RUN" = "1" ]; then
+      say "would run: npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate YOUR_AGENT_ADDRESS --tx-limit 5 --daily-cap 50 --ttl 86400 --json"
+    else
+      printf 'Agent wallet address: '
+      read -r agent_address
+      case "$agent_address" in
+        ""|AGENT_ADDRESS|YOUR_AGENT_ADDRESS)
+          say "No address given. Skipping this step."
+          ;;
+        *)
+          npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate "$agent_address" --tx-limit 5 --daily-cap 50 --ttl 86400 --json
+          ;;
+      esac
+    fi
   fi
   say ""
   say "Step 4. Faucet. Honest warning: there is no verified public Self claim on testnet at opening, and the faucet may not answer. If it does not, wait. Do not pay anyone for test FLOP."
   if ask "Try a faucet request for the keystore address?"; then
-    run_or_print npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet faucet request KEYSTORE_ADDRESS
-    say "Replace KEYSTORE_ADDRESS with the address the keystore step printed."
+    if [ "$DRY_RUN" = "1" ]; then
+      say "would run: npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet faucet request YOUR_KEYSTORE_ADDRESS"
+    else
+      printf 'Keystore address from step 2: '
+      read -r keystore_address
+      case "$keystore_address" in
+        ""|KEYSTORE_ADDRESS|YOUR_KEYSTORE_ADDRESS)
+          say "No address given. Skipping this step."
+          ;;
+        *)
+          npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet faucet request "$keystore_address"
+          ;;
+      esac
+    fi
   fi
   say ""
   say "Step 5. Gateway. Listing models needs no key. A chat call needs a FLOP gateway API key."

@@ -1,5 +1,19 @@
 # Status log
 
+## 24 November 2026, 22:10 WAT
+
+Seventh check, a full loophole audit of the whole repo, including the new setup script. Seven fixes:
+
+- `setup.sh --agent` would have run the session create and faucet commands with placeholder addresses if the human said yes without replacing them. It now asks for the real address and refuses to run with a placeholder or an empty answer.
+- `setup.sh --agent` would have tried to make a keystore even if `./agent.json` already existed, and even if the password env var was not set. It now refuses to overwrite an existing keystore, and refuses to run without `FLOP_KEY_PASSWORD` set.
+- `setup.sh --agent` would have run the DID step even if the `cryptography` package was missing. It now checks for it first and tells you to install it.
+- The version table in the README said Pi 0.3.5 and CLI 0.8.2 are latest, then gave install commands for the old versions, 0.3.3 and 0.7.0. Fixed to install the latest.
+- The README step 6 code included FLOP's devnet `indexerUrl` in the example, with a note below saying not to use it. The line is now left out of the code, and the note says why.
+- AGENTS.md had two step 0 sections, and step 3 showed both keygen paths in one block even though the text said pick one. The clone step is now a separate intro, the setup script is step 0, and the keygen paths are split into Path A and Path B. Step 4 no longer checks for exactly 3 models, because the count moves.
+- The scripts are stored without the executable bit on GitHub, so `./setup.sh` does not run after a clone. The README now says to run them with `sh`, as shown in every example.
+
+Live recheck at 22:10 WAT: versions unchanged, models 3, RPC HTTP 429 again after a clean MATCH at 21:52 WAT.
+
 ## 24 November 2026, 21:52 WAT
 
 Sixth check, building the setup script and catching two live changes.

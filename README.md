@@ -2,9 +2,9 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 24 November 2026, 21:52 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 24 November 2026, 22:10 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
 
-**Fastest start:** clone this repo and run `sh setup.sh --doctor`. It checks versions, chain, and models, and changes nothing. For a full agent setup it asks first at each step. It never asks for a seed, never spends, and never runs a paid session. See [setup.sh](setup.sh).
+**Fastest start:** clone this repo and run `sh setup.sh --doctor`. It checks versions, chain, and models, and changes nothing. For a full agent setup it asks first at each step. It never asks for a seed, never spends, and never runs a paid session. Run the scripts with `sh`, as shown here: the files are stored without the executable bit on GitHub, so `./setup.sh` will not run until you run `chmod +x setup.sh` first. See [setup.sh](setup.sh).
 
 **In this guide:** [where things stand](#where-things-stand-right-now) · [what counts and what earns nothing](#what-counts-and-what-earns-nothing) · [how to start as an agent](#how-to-start-as-an-agent) · [which package and version](#which-package-do-i-need-and-which-version) · [MCP and Pi](#mcp-and-pi-in-short) · [Technocore](#technocore-in-short) · [stay safe](#stay-safe) · [for AI agents](#if-you-are-an-ai-agent)
 
@@ -20,7 +20,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 
 ## Where things stand right now
 
-| What | What is true on 24 Nov 2026, 21:52 WAT |
+| What | What is true on 24 Nov 2026, 22:10 WAT |
 | --- | --- |
 | Testnet | Live, but not scored yet. Opened 24 Nov 2026. |
 | Chain name | `flop_testnet` |
@@ -160,11 +160,10 @@ const result = await runDirectSession({
   messages: [{ role: 'user', content: 'Say hello.' }],
   maxFlop: 10_000_000_000_000_000n, // 0.01 FLOP in raw units
   via: 'auto', endpoint: 'http://127.0.0.1:8645',
-  indexerUrl: 'https://explorer.devnet.flop.network',
 });
 ```
 
-Note the last line: that indexer address is for devnet. Do not reuse it for a testnet session. Use the testnet indexer FLOP publishes when it is out, and check the network name before you sign anything.
+FLOP's own example also has an `indexerUrl` line, pointing at `https://explorer.devnet.flop.network`. That address is for devnet. It is left out here on purpose. Do not reuse it for a testnet session. Use the testnet indexer FLOP publishes when it is out, and check the network name before you sign anything.
 
 If the work is wrong, you can challenge it. You put down a 100 FLOP bond. If your challenge is silly, you lose that bond. If you are right, you get your escrow back, and the miner loses its whole stake for that work.
 
@@ -180,8 +179,8 @@ FLOP has six packages. There are no Rust or Go packages from FLOP, and no agent 
 | Check gateway answers in your own code | `@flop-labs/contracts` 0.1.2 | `npm install @flop-labs/contracts@0.1.2` |
 | Work on chain, with a wallet and a budget | `@flop-labs/sdk` | See the warning below |
 | Work on chain from Python | `flop-sdk` 0.3.5 for testnet | `pip install flop-sdk==0.3.5` |
-| Use FLOP inside the Pi coding agent | `@flop-labs/pi` 0.3.3 in the docs, 0.3.5 is latest | `pi install npm:@flop-labs/pi@0.3.3` |
-| Run a miner or validator, or script a network | `@flop-labs/cli` 0.7.0 in the docs, 0.8.2 is latest | `npx --yes --package @flop-labs/cli@0.7.0 flop --version` |
+| Use FLOP inside the Pi coding agent | `@flop-labs/pi` 0.3.5 is latest, 0.3.3 is in the docs | `pi install npm:@flop-labs/pi@0.3.5` |
+| Run a miner or validator, or script a network | `@flop-labs/cli` 0.8.2 is latest, 0.7.0 is in the docs | `npx --yes --package @flop-labs/cli@0.8.2 flop --version` |
 | Use an MCP client | Hosted read only server | `https://mcp.flop.network/mcp` |
 
 ### Watch out: the docs are already behind the latest versions

@@ -11,7 +11,7 @@ step, re-read the official page it names and tell me about any difference. Ask m
 submission or post. Help me prepare for the FLOP testnet as an agent, and end with a session report.
 ```
 
-## 0. Set up first (2 minutes)
+## Before you start: clone and check tools (2 minutes)
 
 Run these commands exactly. If one fails, stop and report the error. Do not guess around it.
 
@@ -49,10 +49,10 @@ Ask for these one at a time, only when you reach the step that needs them. Do no
 9. Do not route spend to a miner under common control, and do not split activity across wallets to game scoring. That is scored as one participant and is not credited.
 10. Report what you checked, what changed, and what you did not verify. Do not invent a success.
 
-## Facts, checked 24 November 2026, 21:52 WAT
+## Facts, checked 24 November 2026, 22:10 WAT
 
 - Testnet is live, unscored opening, opened 24 Nov 2026. Chain ID `flop_testnet`. RPC `wss://testnet.flop.network/`. Genesis `0x918abd58fb16306b30ef3886514cfaebffecb4de43e82b6f8ec4795c43cfd800`. Explorer testnet.flopscan.io.
-- Testnet gateway, from the SDK chain profile: `https://gateway.testnet.flop.network`. Testnet faucet, from the same profile: `https://faucet.testnet.flop.network`. The CLI network check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine. The RPC timed out after 10 seconds. That does not mean the network is down. Check FLOPScan too.
+- Testnet gateway, from the SDK chain profile: `https://gateway.testnet.flop.network`. Testnet faucet, from the same profile: `https://faucet.testnet.flop.network`. The RPC from this machine is flaky: it timed out at 20:20 WAT, answered cleanly with the exact genesis hash at 21:52 WAT, and returned HTTP 429 again at 22:10 WAT. That does not mean the network is down. Check FLOPScan too.
 - Scored phase has not started. No activation block or date is announced. Earlier activity earns zero, with no backfill.
 - Final testnet faucet limits are not announced. No verified public Self claim exists at the opening. Getting faucet money does not reserve a gateway place. The gateway has its own rolling 24 hour limit.
 - Testnet runs runtime spec version 1014035. SDK 0.10.0 admits 1014035. SDK 0.9.0 stops at 1014034. Use 0.10.0 for testnet chain work. Python `flop-sdk` 0.3.5 also admits 1014035. Use 0.3.5, not the older 0.3.2 in the docs.
@@ -132,13 +132,20 @@ head -n 5 sign.py
 
 Pass: the file starts with a comment that says it is a minimal Ed25519 did:key signer for technocore-chat. If it does not, stop. You have the wrong file.
 
-Then make the key. Use `uv run` if `uv` is installed, otherwise install the one package the tool needs first, then run it with Python 3.12. Pick one path, not both:
+Then make the key. Pick one path, not both. Path A, if `uv` is installed:
 
 ```bash
 uv run sign.py keygen
+```
+
+Path B, if `uv` is not installed, install the one package the tool needs first, then run it with Python 3.12:
+
+```bash
 python3 -m pip install cryptography
 python3 sign.py keygen
 ```
+
+Do not run both paths. Each one makes a different key.
 
 Pass: it prints a seed and a DID. The DID starts with `did:key:z6Mk`. Save the seed only where the human told you to. Never print it in your report. Never save it in this repo.
 
@@ -211,7 +218,7 @@ const completion = await client.createChatCompletion({
 console.log(completion);
 ```
 
-Pass: `listModels` returns the same 3 model ids as the curl above, and the chat call returns a completion with text. Fail: if the gateway says the sign up limit is full, stop. Funding a wallet will not fix it. Try again later with the same wallet.
+Pass: `listModels` returns the same model ids as the curl above, and the chat call returns a completion with text. The count moves during the day, it gave 2 and 3 on the same night, so do not check for an exact count. Fail: if the gateway says the sign up limit is full, stop. Funding a wallet will not fix it. Try again later with the same wallet.
 
 Official page: https://ask.flop.finance/docs/sdk-references
 
