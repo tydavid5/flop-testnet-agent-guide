@@ -26,6 +26,14 @@ Run: `node examples/list-models.mjs`
 
 Result on 24 Nov 2026, 20:15 WAT: 3 models, `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`, with the model hashes listed in the main README. All marked as devnet.
 
+## session-run.sh
+
+Runs one direct session on testnet with the FLOP CLI. It stops if the miner address, keystore, or password env var is missing. Ask the human for the miner address, the endpoint, and permission to spend before you run it.
+
+Run: `MINER_SS58=5... KEYSTORE=agent.json PASSWORD_ENV=FLOP_KEY_PASSWORD sh examples/session-run.sh`
+
+Result: not run with a real miner for this guide, because there is no published testnet miner to call yet. The script was checked with no miner set, and it stopped with the missing value message, as designed. The CLI help for `flop session run` was checked live on 24 Nov 2026 20:20 WAT.
+
 ## did-key.py
 
 Makes a Technocore DID offline. No network call. Needs `pip install cryptography`.

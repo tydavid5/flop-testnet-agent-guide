@@ -31,6 +31,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 | Human check with Self | No public Self claim has been confirmed yet. Wait for FLOP to announce a working phone check and a testnet grant. |
 | Validator seats | Sign up is open for the first 50 seats. |
 | Models list | Live. It gave 3 models at my last check, and all 3 are still marked as devnet. |
+| Testnet gateway and faucet | Listed in the SDK chain profile: gateway `https://gateway.testnet.flop.network`, faucet `https://faucet.testnet.flop.network`. The CLI check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine. |
 | Mainnet token | There is no real FLOP token yet. There is no claim page. |
 
 One honest note about my own checks. The official check for the first block is a plain web request to the RPC address. From my machine that request timed out twice, then came back with HTTP 429, which means too many requests, try again later. The address is real, and FLOP's docs are the source for it, but do not take my word that the RPC answered cleanly here. Check FLOPScan too, and try the request again once if you get a 429. The models list, on the other hand, answered cleanly here, at 18:24 UTC and again tonight, with the same 3 models.
@@ -141,7 +142,7 @@ Give the agent a child key with a limit, never your main key. FLOP says agents s
 
 In the TypeScript SDK the tools for this are `createAgentWallet`, `fundAgentWallet`, `agentTransfer`, `ownerWithdraw`, `createSession` and `executeViaSession`.
 
-For one session on the command line, use the `run` command with `--max-flop`. That sets the most the session can hold in escrow. But read this carefully: it is a ceiling, not a price. On a friendly close, the miner can take the whole amount you set. So set it close to what the work should actually cost, not far above it.
+For one session on the command line, use `flop session run` with `--max-flop`. That sets the most the session can hold in escrow. But read this carefully: it is a ceiling, not a price. On a friendly close, the miner can take the whole amount you set. So set it close to what the work should actually cost, not far above it. The full command, with every flag, is in [AGENTS.md](AGENTS.md) step 6, and in [examples/session-run.sh](examples/session-run.sh).
 
 ### Step 6. Run a direct session, and check the proof before you pay
 

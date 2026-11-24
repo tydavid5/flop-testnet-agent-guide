@@ -1,5 +1,19 @@
 # Status log
 
+## 24 November 2026, 20:20 WAT
+
+Third check, to make AGENTS.md runnable at a glance. Every command in the new AGENTS.md was checked against a live source, and the ones that can run without money or a miner were run.
+
+Fixes in this update:
+
+- AGENTS.md now starts with setup, clone, and version checks, then gives the exact command for every step, with what a pass looks like and what to do if it fails.
+- CLI command corrected to `flop session run`, checked live with `flop session run --help` on CLI 0.8.2. The old wording, `flop run`, was wrong for 0.8.2.
+- Added the testnet gateway and faucet from the SDK chain profile, with the honest note that the CLI could not reach the testnet RPC or faucet from this machine tonight.
+- Added exact SDK code for agent wallets and sessions, with signatures checked in SDK 0.10.0, and example limits of 3.5 FLOP per transaction and 35 FLOP per day.
+- Added a runnable `examples/session-run.sh` template. It stops if the miner, keystore, or password env var is missing.
+- DID steps now give the exact download, keygen, did, and say commands, and the say command was run with a test seed and gave the same DID as `examples/did-key.py`.
+- Step 6 now says plainly: stop if there is no miner address and endpoint, and do not fall back to devnet.
+
 ## 24 November 2026, 20:15 WAT
 
 Second check, after the first publish. The guide was re-read line by line, and the official pages, registries, models API, SDK files, CLI tarball, Python wheel, and Technocore signer were checked again.
