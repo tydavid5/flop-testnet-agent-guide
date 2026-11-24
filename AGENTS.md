@@ -122,10 +122,11 @@ head -n 5 sign.py
 
 Pass: the file starts with a comment that says it is a minimal Ed25519 did:key signer for technocore-chat. If it does not, stop. You have the wrong file.
 
-Then make the key. Use `uv run` if `uv` is installed, otherwise use Python 3.12 with the `cryptography` package installed. Pick one line, not both:
+Then make the key. Use `uv run` if `uv` is installed, otherwise install the one package the tool needs first, then run it with Python 3.12. Pick one path, not both:
 
 ```bash
 uv run sign.py keygen
+python3 -m pip install cryptography
 python3 sign.py keygen
 ```
 
@@ -181,11 +182,12 @@ Or run the script in this repo, which does the same thing:
 node examples/list-models.mjs
 ```
 
-To call a model, install the client first, then run this code. Replace nothing except the model id, with the id from the list above. The API key comes from the human, in the shell, never in a file:
+To call a model, install the client first, save this code as `gateway-call.mjs` in the repo root, then run it. Replace nothing except the model id, with the id from the list above. The API key comes from the human, in the shell, never in a file:
 
 ```bash
 npm install @flop-labs/client@0.2.2
 export FLOP_API_KEY="PASTE_KEY_HERE"
+node gateway-call.mjs
 ```
 
 ```js
@@ -207,15 +209,37 @@ Official page: https://ask.flop.finance/docs/sdk-references
 
 STOP. Ask the human first: "What spending limits should I use, and which keystore file should I use?" Do not run any command in this step until the human answers.
 
-Use a child key with a limit, never the owner key. The example limits below are 3.5 FLOP per transaction and 35 FLOP per day, which are the SDK's own example defaults. Use the human's numbers instead if they gave you different ones. One FLOP is 1,000,000,000,000,000,000 raw units.
+Use a child key with a limit, never the owner key. One FLOP is 1,000,000,000,000,000,000 raw units.
 
-Install the SDK first:
+First, make an encrypted keystore for the owner, if the human does not already have one. Set the password in the shell first, never in a file. This command was run live on 24 Nov 2026 and it works. It prints only the address, the name, and the file path. It does not print the seed:
+
+```bash
+export FLOP_KEY_PASSWORD="PASTE_PASSWORD_HERE"
+npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet keys generate --name test-agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
+```
+
+Pass: it prints an address that starts with `5`, and a file `./agent.json` exists. Keep that file safe. Do not use `--show-secret`. That flag prints the seed, and you must never use it.
+
+Next, make the session key with the CLI. This is the runnable path. It was checked live with `--help` on CLI 0.8.2. Replace `AGENT_ADDRESS` with the child agent address the human gave you. The defaults below are the CLI defaults: 5 FLOP per transaction, 50 FLOP per day, and 86,400 blocks, which is about 24 hours at 1 second per block:
+
+```bash
+npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create \
+  --delegate AGENT_ADDRESS \
+  --tx-limit 5 \
+  --daily-cap 50 \
+  --ttl 86400 \
+  --json
+```
+
+Pass: it returns a transaction hash. If it throws `RUNTIME_INCOMPATIBLE`, stop and report the spec version it found. Do not turn the compatibility check off.
+
+Note on limits, so you do not use the wrong ones: the SDK also lists a proposed set of 3.5 FLOP per transaction and 35 FLOP per day. Those are marked in the SDK as proposed and pending approval. They are not the approved limits. The approved calibrated limits are 5 FLOP per transaction and 50 FLOP per day. Use those unless the human gave you different numbers.
+
+The SDK way below is a template, not a live run by this guide. Its function shapes were checked in SDK 0.10.0, but no funded testnet wallet was used to run them here. Use the CLI above first. Only use the SDK code if the human asks for it, and only with a signer loaded from the keystore you just made. Do not paste a seed to make a signer:
 
 ```bash
 npm install @flop-labs/sdk@0.10.0
 ```
-
-Then run this code, with the placeholders replaced by the human's values. `OWNER_ADDRESS` is the owner wallet address. `AGENT_ADDRESS` is the child agent address. `OWNER_SIGNER` is the owner key, from the keystore the human chose, never pasted in chat:
 
 ```js
 import { ApiPromise, WsProvider } from "@polkadot/api";
@@ -224,11 +248,14 @@ import { createAgentWallet, fundAgentWallet, createSession } from "@flop-labs/sd
 const provider = new WsProvider("wss://testnet.flop.network/");
 const api = await ApiPromise.create({ provider });
 
-// OWNER_SIGNER comes from the human's keystore. Do not paste a seed here.
+// OWNER_SIGNER must be loaded from the ./agent.json keystore, with its password.
+// This guide does not give a seed loading snippet, because loading a seed wrong
+// is how keys leak. Use the CLI session create above instead, unless the human
+// tells you exactly how to load their signer.
 const agentTx = await createAgentWallet(api, OWNER_SIGNER, {
   agent: "AGENT_ADDRESS",
-  perTxLimit: 3_500_000_000_000_000_000n,
-  dailyCap: 35_000_000_000_000_000_000n,
+  perTxLimit: 5_000_000_000_000_000_000n,
+  dailyCap: 50_000_000_000_000_000_000n,
 });
 console.log("createAgentWallet tx:", agentTx);
 
@@ -261,10 +288,11 @@ STOP. You need two values from the human, and you must not invent them: a miner 
 
 Ask the human first: "May I spend up to 0.01 FLOP on a session with this miner?" Use the human's amount instead if they gave you a different one. On a friendly close, the miner can take the whole amount, so keep it close to the real cost.
 
-The CLI way, run from the repo root, with the keystore the human chose:
+The CLI way, run from the repo root, with the keystore from step 5. Set the password in the shell first, never in a file:
 
 ```bash
-npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore agent.json --password-env FLOP_KEY_PASSWORD session run \
+export FLOP_KEY_PASSWORD="PASTE_PASSWORD_HERE"
+npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session run \
   --miner 'MINER_SS58_HERE' \
   --model qwen/qwen2.5-0.5b-instruct \
   --prompt 'Say hello.' \
@@ -274,7 +302,7 @@ npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore agent
   --json
 ```
 
-Replace `agent.json` with the human's keystore path, `FLOP_KEY_PASSWORD` with the env var name the human gave you, `MINER_SS58_HERE` with the miner address, and the endpoint with the miner's endpoint if it is not loopback. Do not use `--new-wallet` on testnet. Its help text still says devnet wallet. Use an encrypted keystore instead.
+Replace `./agent.json` with the human's keystore path if it is different, `MINER_SS58_HERE` with the miner address, and the endpoint with the miner's endpoint if it is not loopback. Do not use `--new-wallet` on testnet. Its help text still says devnet wallet. Use an encrypted keystore instead. If `--via auto` fails because there is no signed offer for that miner, do not switch to `--via force` on your own. Ask the human first, because force waits for a chain acknowledgement and needs a finalized channel open.
 
 Pass: the output names a reply, the same miner you asked for, a channel id, a verified turn count of 1 or more, and a settlement transaction hash.
 

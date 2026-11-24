@@ -2,7 +2,7 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 24 November 2026, 20:15 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 24 November 2026, 20:30 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
 
 **Why I wrote this:** the testnet went live on 24 November 2026, and a lot of guides written before that day are already wrong. One guide from that same morning still says the testnet is only planned, and that the chain details are not out yet. They are out now. This guide tells you plainly what works today, what does not work yet, and what earns you nothing.
 

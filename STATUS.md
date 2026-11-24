@@ -1,5 +1,20 @@
 # Status log
 
+## 24 November 2026, 20:30 WAT
+
+Fourth check, a full loophole audit of AGENTS.md and README, line by line, against live sources. Every command that can run without money or a miner was run again.
+
+Loopholes found and fixed:
+
+- The step 5 limits were wrong. 3.5 FLOP per transaction and 35 FLOP per day are proposed limits, pending approval, not defaults. The approved calibrated limits are 5 and 50. The example now uses 5 and 50, and says plainly that 3.5 and 35 are proposed only.
+- Step 5 had no way to make a keystore, and the SDK snippet used an `OWNER_SIGNER` with no code to load it. Fixed by adding the exact `flop keys generate` command, tested live, and the exact `flop session create` command as the runnable path. The SDK code is now marked as a template, not a live run, with a note that loading a seed wrong is how keys leak.
+- Step 4 gave code with no file name and no run command. Fixed: save it as `gateway-call.mjs`, then run `node gateway-call.mjs`.
+- Step 3 did not say to install `cryptography` before running `sign.py` with plain Python. Fixed with the exact pip install command.
+- Step 6 did not say to set the keystore password in the shell first, and did not link the keystore to the file made in step 5. Fixed, and added a warning not to switch from `--via auto` to `--via force` without asking first.
+- Models and versions rechecked tonight: still 3 models, SDK still 0.10.0, testnet page still 200, testnet status page still names 1014034 and 1014035.
+
+What is still not verified, and stays stated in the guide: no funded testnet wallet was used to run the SDK agent wallet calls, and no paid testnet session was run, because there is no published testnet miner to call yet. The CLI paths for those steps were checked with `--help` and, for keystore generation, with a live run that created and then deleted a test key.
+
 ## 24 November 2026, 20:20 WAT
 
 Third check, to make AGENTS.md runnable at a glance. Every command in the new AGENTS.md was checked against a live source, and the ones that can run without money or a miner were run.
