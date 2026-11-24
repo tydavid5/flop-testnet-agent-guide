@@ -49,7 +49,7 @@ Ask for these one at a time, only when you reach the step that needs them. Do no
 9. Do not route spend to a miner under common control, and do not split activity across wallets to game scoring. That is scored as one participant and is not credited.
 10. Report what you checked, what changed, and what you did not verify. Do not invent a success.
 
-## Facts, checked 24 November 2026, 20:45 WAT
+## Facts, checked 24 November 2026, 21:52 WAT
 
 - Testnet is live, unscored opening, opened 24 Nov 2026. Chain ID `flop_testnet`. RPC `wss://testnet.flop.network/`. Genesis `0x918abd58fb16306b30ef3886514cfaebffecb4de43e82b6f8ec4795c43cfd800`. Explorer testnet.flopscan.io.
 - Testnet gateway, from the SDK chain profile: `https://gateway.testnet.flop.network`. Testnet faucet, from the same profile: `https://faucet.testnet.flop.network`. The CLI network check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine. The RPC timed out after 10 seconds. That does not mean the network is down. Check FLOPScan too.
@@ -57,7 +57,7 @@ Ask for these one at a time, only when you reach the step that needs them. Do no
 - Final testnet faucet limits are not announced. No verified public Self claim exists at the opening. Getting faucet money does not reserve a gateway place. The gateway has its own rolling 24 hour limit.
 - Testnet runs runtime spec version 1014035. SDK 0.10.0 admits 1014035. SDK 0.9.0 stops at 1014034. Use 0.10.0 for testnet chain work. Python `flop-sdk` 0.3.5 also admits 1014035. Use 0.3.5, not the older 0.3.2 in the docs.
 - Docs baseline, 20 Nov 2026: client 0.2.2, contracts 0.1.2, SDK 0.7.1, Pi 0.3.3, CLI 0.7.0, Python flop-sdk 0.3.2. Registry latest, 24 Nov 2026: SDK 0.10.0, CLI 0.8.2, Pi 0.3.5, Python flop-sdk 0.3.5. Check the registry live before you install.
-- Gateway base URL is `https://api.flop.network/v1`. Listing models needs no key. Chat completions need an API key. At the last live check, 24 Nov 20:45 WAT, the models API returned 3 models, all labelled devnet: `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`. List again before you use a model hash.
+- Gateway base URL is `https://api.flop.network/v1`. Listing models needs no key. Chat completions need an API key. At the last live check, 24 Nov 21:53 WAT, the models API returned 3 models, all labelled devnet: `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`. The count moves during the day, it gave 2 at 21:52 WAT and 3 again minutes later. List again before you use a model hash.
 - Hosted MCP is `https://mcp.flop.network/mcp`, read only. It never exposes `flop_run_session`. A local write enabled MCP provides that tool, per FLOP's direct session guide.
 - Agent airdrop pool, draft: 1,200,000,000 FLOP, shared out based on computer work bought in finished sessions. Agent share is locked, spendable only on computer work, unlocking 3 FLOP spent to 1 FLOP unlocked.
 - Session request fields, five: model weight hash, maximum latency, compute in FLOPs, confidentiality flag, fee.
@@ -66,6 +66,16 @@ Ask for these one at a time, only when you reach the step that needs them. Do no
 - The CLI command for a direct session is `flop session run`, not `flop run`. It needs `--miner`, `--model`, `--prompt`, and `--max-flop`. That last flag is a ceiling, not a price. On a friendly close, the miner can take the whole amount you set, so set it close to the real cost.
 
 ## Steps, in order
+
+### 0. Run the setup script first (2 minutes, read only)
+
+Run this command exactly, from the repo root:
+
+```bash
+sh setup.sh --doctor
+```
+
+Pass: versions match, chain reports MATCH, models list. It changes nothing. If the human wants the full agent setup, run `sh setup.sh --agent` instead. It walks through DID, keystore, capped session key, faucet, and gateway, and asks the human first at each step. Add `--dry-run` to print the commands and run none of them. The script never asks for a seed, never prints one, never spends, and never runs a paid session. For a miner or validator, run `sh setup.sh --miner-check` or `sh setup.sh --validator-check`. Both check the hardware and tell you the honest status, and neither installs a package that is not published yet.
 
 ### 1. Verify the chain (2 minutes, read only)
 
@@ -174,7 +184,7 @@ Run this command exactly. No key is needed:
 curl -fsS https://api.flop.network/v1/models | python3 -m json.tool | head -n 80
 ```
 
-Pass: it lists 3 models, each with a `model_hash` that starts with `0x`. Use the hash it gives you today. Do not copy a hash from an old guide.
+Pass: it lists the models the gateway returns today, each with a `model_hash` that starts with `0x`. At the last check that was 3 models, after briefly giving 2. Use the hash it gives you today. Do not copy a hash from an old guide.
 
 Or run the script in this repo, which does the same thing:
 

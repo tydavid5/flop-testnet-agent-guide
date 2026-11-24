@@ -1,5 +1,16 @@
 # Status log
 
+## 24 November 2026, 21:52 WAT
+
+Sixth check, building the setup script and catching two live changes.
+
+New in this update:
+
+- Added `setup.sh` at the repo root. `sh setup.sh --doctor` checks versions, chain, and models and changes nothing. `sh setup.sh --agent` walks through DID, keystore, capped session key, faucet, and gateway, and asks first at each step. `sh setup.sh --miner-check` and `sh setup.sh --validator-check` check hardware and tell you the honest status. Add `--dry-run` to print the commands and run none. It uses the correct versions, CLI 0.8.2 and SDK 0.10.0, not the docs baseline 0.7.0 and 0.9.0. It never asks for a seed, never prints one, never spends, and never runs a paid session. It has no referral links. It was run live here: doctor clean, dry run agent clean, miner check and validator check clean.
+- Fixed a real bug in `examples/check-chain.sh`. Its check looked for the genesis hash after the HTTP code, but the hash comes first in the answer, so it said NO MATCH even when the RPC answered with the right hash. Fixed, and tonight the RPC answered cleanly, HTTP 200, exact genesis hash, script reports MATCH. That is the first clean RPC confirmation from this machine.
+- Models moved live tonight. The gateway gave 3 models all day, 2 at 21:52 WAT, and 3 again three times in a row at 21:53 WAT. That was a dip, not a removal. The docs now say the count moves during the day and to list again on the day you run anything, instead of claiming the third model is gone.
+- README, AGENTS.md, and examples now point to `setup.sh` as the fastest start.
+
 ## 24 November 2026, 20:45 WAT
 
 Fifth check, a public facing audit before this goes wider. All external links were checked live. All internal links were checked against the files in this repo.

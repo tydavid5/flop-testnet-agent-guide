@@ -2,7 +2,9 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 24 November 2026, 20:45 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 24 November 2026, 21:52 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+
+**Fastest start:** clone this repo and run `sh setup.sh --doctor`. It checks versions, chain, and models, and changes nothing. For a full agent setup it asks first at each step. It never asks for a seed, never spends, and never runs a paid session. See [setup.sh](setup.sh).
 
 **In this guide:** [where things stand](#where-things-stand-right-now) · [what counts and what earns nothing](#what-counts-and-what-earns-nothing) · [how to start as an agent](#how-to-start-as-an-agent) · [which package and version](#which-package-do-i-need-and-which-version) · [MCP and Pi](#mcp-and-pi-in-short) · [Technocore](#technocore-in-short) · [stay safe](#stay-safe) · [for AI agents](#if-you-are-an-ai-agent)
 
@@ -18,7 +20,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 
 ## Where things stand right now
 
-| What | What is true on 24 Nov 2026, 20:45 WAT |
+| What | What is true on 24 Nov 2026, 21:52 WAT |
 | --- | --- |
 | Testnet | Live, but not scored yet. Opened 24 Nov 2026. |
 | Chain name | `flop_testnet` |
@@ -32,11 +34,11 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 | Faucet limits | Final testnet limits have not been announced. |
 | Human check with Self | No public Self claim has been confirmed yet. Wait for FLOP to announce a working phone check and a testnet grant. |
 | Validator seats | Sign up is open for the first 50 seats. |
-| Models list | Live. It gave 3 models at my last check, and all 3 are still marked as devnet. |
+| Models list | Live, but the count moves. It gave 3 models most of the day, 2 at 21:52 WAT, and 3 again minutes later. All are still marked as devnet. List again on the day you run anything, and use the hash the gateway gives you that day. |
 | Testnet gateway and faucet | Listed in the SDK chain profile: gateway `https://gateway.testnet.flop.network`, faucet `https://faucet.testnet.flop.network`. The CLI check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine, and those two addresses did not load as web pages from here either. They are API addresses from the SDK, not pages to open in a browser. |
 | Mainnet token | There is no real FLOP token yet. There is no claim page. |
 
-One honest note about my own checks. The official check for the first block is a plain web request to the RPC address. From my machine that request timed out twice, then came back with HTTP 429, which means too many requests, try again later. The address is real, and FLOP's docs are the source for it, but do not take my word that the RPC answered cleanly here. Check FLOPScan too, and try the request again once if you get a 429. The models list, on the other hand, answered cleanly here, at 18:24 UTC and again tonight, with the same 3 models.
+One honest note about my own checks. The official check for the first block is a plain web request to the RPC address. Earlier today, from my machine, that request timed out twice, then came back with HTTP 429, which means too many requests, try again later. Tonight at 21:52 WAT it answered cleanly, HTTP 200, with the exact genesis hash, and `examples/check-chain.sh` now reports MATCH. A bug in that script also hid the match earlier: it looked for the hash after the HTTP code, but the hash comes first in the answer. That is fixed now. If you get a 429, try the request again once, and check FLOPScan too. The models list answered cleanly here all day, but the count moves: it gave 3 models most of the day, 2 at 21:52 WAT, and 3 again minutes later. List again on the day you run anything.
 
 ## What an agent does on FLOP
 
@@ -106,7 +108,7 @@ There is also a small offline tool in this repo, [examples/did-key.py](examples/
 curl -fsS https://api.flop.network/v1/models | python3 -m json.tool | head -n 80
 ```
 
-At my last check this gave 3 models, all still marked as devnet:
+At my last check this gave 3 models, all still marked as devnet. The count moves during the day: it gave 2 at 21:52 WAT and 3 again minutes later, so do not trust a count from a guide. List again on the day you run anything:
 
 | Model | Model hash |
 | --- | --- |
@@ -134,7 +136,7 @@ const completion = await client.createChatCompletion({
 });
 ```
 
-This is FLOP's own example. The gateway lives at `https://api.flop.network/v1`. You need Node.js 22 or later. A simpler version that only lists models, with no key and no chat call, is in [examples/list-models.mjs](examples/list-models.mjs). I ran it myself, and it gave the same 3 models.
+This is FLOP's own example. The gateway lives at `https://api.flop.network/v1`. You need Node.js 22 or later. A simpler version that only lists models, with no key and no chat call, is in [examples/list-models.mjs](examples/list-models.mjs). I ran it myself tonight, and it gave 3 models, after briefly giving 2.
 
 One more thing to know: getting test FLOP from a faucet is not the same as getting into the gateway. The gateway has its own sign up limit, which resets on a rolling 24 hour clock. If it says the limit is full, funding your wallet will not fix it. Just try again later with the same wallet.
 

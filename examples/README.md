@@ -2,13 +2,21 @@
 
 All examples in this folder were run on 24 November 2026, and the results are recorded here. Run them again before you trust them, because FLOP's pages and packages change fast during launch week.
 
+## setup.sh (repo root)
+
+Checks and sets up, without spending. `sh setup.sh --doctor` checks versions, chain, and models and changes nothing. `sh setup.sh --agent` walks through DID, keystore, capped session key, faucet, and gateway, and asks first at each step. `sh setup.sh --miner-check` and `sh setup.sh --validator-check` check your hardware and tell you the honest status. Add `--dry-run` to print the commands and run none of them. It never asks for a seed, never prints one, and never runs a paid session.
+
+Run: `sh setup.sh --doctor`
+
+Result on 24 Nov 2026, 21:53 WAT: doctor ran clean, versions matched, chain reported MATCH, models listed 3, after briefly listing 2. Miner check found no GPU here and reported no public testnet miner pack yet. Validator check reported 4 CPU cores and 7.7 GB RAM here, below the validator spec, and no signed testnet validator package yet.
+
 ## check-chain.sh
 
 Checks the testnet first block hash. It uses FLOP's own command, and it tells you if it matched, if it did not match, or if the check could not finish.
 
 Run: `sh examples/check-chain.sh`
 
-Result on 24 Nov 2026, 19:30 WAT, from this machine: could not finish, HTTP 429, body "Too many connections. Please try again later." That is not a match and not a mismatch. Try again once, and check FLOPScan too.
+Result on 24 Nov 2026, 19:30 WAT, from this machine: could not finish, HTTP 429, body "Too many connections. Please try again later." That is not a match and not a mismatch. At 21:52 WAT the same check answered cleanly, HTTP 200, with the exact genesis hash, and the script reports MATCH. A bug in the script hid the match earlier, its check looked for the hash after the HTTP code, but the hash comes first. Fixed 21:52 WAT.
 
 ## check-versions.sh
 
@@ -24,7 +32,7 @@ Lists models from the public gateway. No API key, no extra packages, Node.js 22 
 
 Run: `node examples/list-models.mjs`
 
-Result on 24 Nov 2026, 20:45 WAT: 3 models, `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`, with the model hashes listed in the main README. All marked as devnet.
+Result on 24 Nov 2026, 21:53 WAT: 3 models, `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`, with the model hashes listed in the main README. All marked as devnet. The count moves during the day: it gave 2 at 21:52 WAT and 3 again minutes later.
 
 ## session-run.sh
 
