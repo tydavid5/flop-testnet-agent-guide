@@ -125,7 +125,7 @@ const completion = await client.createChatCompletion({
 });
 ```
 
-This example is from FLOP's SDK references page. The default base URL is `https://api.flop.network/v1`. It needs Node.js 22 or later. A runnable version is in [examples/list-models.mjs](examples/list-models.mjs). It lists models without a key, and only attempts a chat completion if `FLOP_API_KEY` is set.
+This example is from FLOP's SDK references page. The default base URL is `https://api.flop.network/v1`. It needs Node.js 22 or later. A runnable listing version, with no key and no chat call, is in [examples/list-models.mjs](examples/list-models.mjs).
 
 ### Step 5. Give the agent a budget, never the owner key
 
