@@ -1,5 +1,19 @@
 # Status log
 
+## 24 November 2026, 20:45 WAT
+
+Fifth check, a public facing audit before this goes wider. All external links were checked live. All internal links were checked against the files in this repo.
+
+Fixes in this update:
+
+- Removed two test key addresses and one test DID from SOURCES.md. They were throwaway test keys, already deleted, but publishing them could have led someone to send funds to a dead address. They are not in this repo any more. Note: they are still in earlier git history, because git history keeps old commits. Do not use them.
+- Fixed a stale line in SOURCES.md that still said the `run` command. It is `session run`.
+- Added a note in AGENTS.md that FLOP's direct session guide is written for devnet, and the testnet command adapts it by changing the network flag.
+- Added a note in the README that the testnet gateway and faucet addresses did not load as web pages from here. They are API addresses from the SDK, not pages to open in a browser.
+- Added .gitignore, SECURITY.md, and CONTRIBUTING.md, so no one accidentally commits a keystore, a seed file, or an env file, and so a reader knows how to report a mistake or a security bug safely.
+- Added a short contents list to the top of the README.
+- Unified the last checked date to 24 Nov 2026, 20:45 WAT across the README, AGENTS.md, and examples. Models and versions were rechecked at that time: still 3 models, still SDK 0.10.0, CLI 0.8.2, Pi 0.3.5, Python 0.3.5.
+
 ## 24 November 2026, 20:30 WAT
 
 Fourth check, a full loophole audit of AGENTS.md and README, line by line, against live sources. Every command that can run without money or a miner was run again.

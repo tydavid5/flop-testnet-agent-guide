@@ -1,0 +1,13 @@
+# Never commit keys, wallets, or secrets to this repo.
+agent.json
+*.keystore.json
+test-agent.json
+.env
+.env.*
+sign.py
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

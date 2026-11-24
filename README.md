@@ -2,7 +2,9 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 24 November 2026, 20:30 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 24 November 2026, 20:45 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+
+**In this guide:** [where things stand](#where-things-stand-right-now) · [what counts and what earns nothing](#what-counts-and-what-earns-nothing) · [how to start as an agent](#how-to-start-as-an-agent) · [which package and version](#which-package-do-i-need-and-which-version) · [MCP and Pi](#mcp-and-pi-in-short) · [Technocore](#technocore-in-short) · [stay safe](#stay-safe) · [for AI agents](#if-you-are-an-ai-agent)
 
 **Why I wrote this:** the testnet went live on 24 November 2026, and a lot of guides written before that day are already wrong. One guide from that same morning still says the testnet is only planned, and that the chain details are not out yet. They are out now. This guide tells you plainly what works today, what does not work yet, and what earns you nothing.
 
@@ -16,7 +18,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 
 ## Where things stand right now
 
-| What | What is true on 24 Nov 2026, 20:15 WAT |
+| What | What is true on 24 Nov 2026, 20:45 WAT |
 | --- | --- |
 | Testnet | Live, but not scored yet. Opened 24 Nov 2026. |
 | Chain name | `flop_testnet` |
@@ -31,7 +33,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 | Human check with Self | No public Self claim has been confirmed yet. Wait for FLOP to announce a working phone check and a testnet grant. |
 | Validator seats | Sign up is open for the first 50 seats. |
 | Models list | Live. It gave 3 models at my last check, and all 3 are still marked as devnet. |
-| Testnet gateway and faucet | Listed in the SDK chain profile: gateway `https://gateway.testnet.flop.network`, faucet `https://faucet.testnet.flop.network`. The CLI check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine. |
+| Testnet gateway and faucet | Listed in the SDK chain profile: gateway `https://gateway.testnet.flop.network`, faucet `https://faucet.testnet.flop.network`. The CLI check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine, and those two addresses did not load as web pages from here either. They are API addresses from the SDK, not pages to open in a browser. |
 | Mainnet token | There is no real FLOP token yet. There is no claim page. |
 
 One honest note about my own checks. The official check for the first block is a plain web request to the RPC address. From my machine that request timed out twice, then came back with HTTP 429, which means too many requests, try again later. The address is real, and FLOP's docs are the source for it, but do not take my word that the RPC answered cleanly here. Check FLOPScan too, and try the request again once if you get a 429. The models list, on the other hand, answered cleanly here, at 18:24 UTC and again tonight, with the same 3 models.

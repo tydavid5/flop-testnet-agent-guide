@@ -16,7 +16,7 @@ Prints the live latest version of each official FLOP package, from npm and PyPI.
 
 Run: `sh examples/check-versions.sh`
 
-Result on 24 Nov 2026, 20:15 WAT: client 0.2.2, contracts 0.1.2, SDK 0.10.0, Pi 0.3.5, CLI 0.8.2, Python flop-sdk 0.3.5.
+Result on 24 Nov 2026, 20:45 WAT: client 0.2.2, contracts 0.1.2, SDK 0.10.0, Pi 0.3.5, CLI 0.8.2, Python flop-sdk 0.3.5.
 
 ## list-models.mjs
 
@@ -24,7 +24,7 @@ Lists models from the public gateway. No API key, no extra packages, Node.js 22 
 
 Run: `node examples/list-models.mjs`
 
-Result on 24 Nov 2026, 20:15 WAT: 3 models, `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`, with the model hashes listed in the main README. All marked as devnet.
+Result on 24 Nov 2026, 20:45 WAT: 3 models, `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`, with the model hashes listed in the main README. All marked as devnet.
 
 ## session-run.sh
 
