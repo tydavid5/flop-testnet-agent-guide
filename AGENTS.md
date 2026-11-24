@@ -51,7 +51,7 @@ Ask for these one at a time, only when you reach the step that needs them. Do no
 9. Do not route spend to a miner under common control, and do not split activity across wallets to game scoring. That is scored as one participant and is not credited.
 10. Report what you checked, what changed, and what you did not verify. Do not invent a success.
 
-## Facts, checked 24 November 2026, 22:10 WAT
+## Facts, checked 24 November 2026, 22:25 WAT
 
 - Testnet is live, unscored opening, opened 24 Nov 2026. Chain ID `flop_testnet`. RPC `wss://testnet.flop.network/`. Genesis `0x918abd58fb16306b30ef3886514cfaebffecb4de43e82b6f8ec4795c43cfd800`. Explorer testnet.flopscan.io.
 - Testnet gateway, from the SDK chain profile: `https://gateway.testnet.flop.network`. Testnet faucet, from the same profile: `https://faucet.testnet.flop.network`. The RPC from this machine is flaky: it timed out at 20:20 WAT, answered cleanly with the exact genesis hash at 21:52 WAT, and returned HTTP 429 again at 22:10 WAT. That does not mean the network is down. Check FLOPScan too.

@@ -2,7 +2,7 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 24 November 2026, 22:10 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 24 November 2026, 22:25 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
 
 **Fastest start:** clone this repo and run `sh setup.sh --doctor`. It checks versions, chain, and models, and changes nothing. For a full agent setup it asks first at each step. It never asks for a seed, never spends, and never runs a paid session. Run the scripts with `sh`, as shown here: the files are stored without the executable bit on GitHub, so `./setup.sh` will not run until you run `chmod +x setup.sh` first. See [setup.sh](setup.sh).
 
@@ -20,7 +20,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 
 ## Where things stand right now
 
-| What | What is true on 24 Nov 2026, 22:10 WAT |
+| What | What is true on 24 Nov 2026, 22:25 WAT |
 | --- | --- |
 | Testnet | Live, but not scored yet. Opened 24 Nov 2026. |
 | Chain name | `flop_testnet` |
@@ -35,7 +35,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 | Human check with Self | No public Self claim has been confirmed yet. Wait for FLOP to announce a working phone check and a testnet grant. |
 | Validator seats | Sign up is open for the first 50 seats. |
 | Models list | Live, but the count moves. It gave 3 models most of the day, 2 at 21:52 WAT, and 3 again minutes later. All are still marked as devnet. List again on the day you run anything, and use the hash the gateway gives you that day. |
-| Testnet gateway and faucet | Listed in the SDK chain profile: gateway `https://gateway.testnet.flop.network`, faucet `https://faucet.testnet.flop.network`. The CLI check on 24 Nov 20:20 WAT could not reach the testnet RPC or faucet from this machine, and those two addresses did not load as web pages from here either. They are API addresses from the SDK, not pages to open in a browser. |
+| Testnet gateway and faucet | Listed in the SDK chain profile: gateway `https://gateway.testnet.flop.network`, faucet `https://faucet.testnet.flop.network`. The RPC from this machine is flaky: it timed out at 20:20 WAT, answered cleanly with the exact genesis hash at 21:52 WAT, and returned HTTP 429 again at 22:10 WAT. Those two addresses did not load as web pages from here either. They are API addresses from the SDK, not pages to open in a browser. |
 | Mainnet token | There is no real FLOP token yet. There is no claim page. |
 
 One honest note about my own checks. The official check for the first block is a plain web request to the RPC address. Earlier today, from my machine, that request timed out twice, then came back with HTTP 429, which means too many requests, try again later. Tonight at 21:52 WAT it answered cleanly, HTTP 200, with the exact genesis hash, and `examples/check-chain.sh` now reports MATCH. A bug in that script also hid the match earlier: it looked for the hash after the HTTP code, but the hash comes first in the answer. That is fixed now. If you get a 429, try the request again once, and check FLOPScan too. The models list answered cleanly here all day, but the count moves: it gave 3 models most of the day, 2 at 21:52 WAT, and 3 again minutes later. List again on the day you run anything.

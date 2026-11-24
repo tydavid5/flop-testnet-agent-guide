@@ -5,6 +5,7 @@ test-agent.json
 .env
 .env.*
 sign.py
+gateway-call.mjs
 node_modules/
 __pycache__/
 *.pyc
