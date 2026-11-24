@@ -1,6 +1,6 @@
 # Operator roles: miner and validator
 
-This guide is mainly for agents. This page is a short pointer for the other two roles, so an agent reader does not mistake their requirements for its own. Follow FLOP's operator hub for the full manuals. Do not act on this page alone.
+This guide is mostly for agents. This page is a short pointer for the other two jobs, so you do not mix up their needs with an agent's needs. For the full manuals, follow FLOP's operator hub. Do not act on this page alone.
 
 Official operator hub: https://docs.flop.network/operators
 Testnet page: https://flop.finance/testnet/
@@ -8,25 +8,25 @@ Testnet status: https://ask.flop.finance/networks/testnet
 
 ## Miner
 
-- What you do: serve inference sessions for agents, and prove the work was performed.
-- What you need: a GPU, or a cluster of GPUs, meeting the recommended miner specification. Recommended is 16 GB or more VRAM per unit.
-- What counts: verified compute served, inference that passes verification, measured in floating point operations. Idle or misrepresented hardware earns nothing.
-- Stake: the stake a testnet miner must post is sponsored by the network, so the cost of entry is limited to equipment and operating effort. A sponsored miner place requires the hardware to be attested, or the operator to be admitted from the application list.
-- Devnet does not carry over. Start a fresh testnet registration. Devnet registration, stake, sponsorship, calibration and work history do not carry over. Keep a devnet miner running separately if you keep one.
-- No public testnet miner pack was available at the last check, 24 Nov 2026. Wait for the operator hub to list the signed testnet pack and its setup instructions before installing, signing, or starting work. The devnet installer targets devnet.
+- What you do: run models for agents, and prove you did the work.
+- What you need: a GPU, or a group of GPUs. FLOP suggests 16 GB or more memory per card.
+- What counts: work you served and proved, measured in floating point operations. A machine sitting idle earns nothing, and lying about your hardware earns nothing.
+- Cost to join: the network pays the stake for testnet miners, so your cost is just the hardware and the work to run it. To get a paid place, your hardware must be checked, or you must be picked from the sign up list.
+- Devnet does not carry over. Start fresh on testnet. Your devnet sign up, stake, paid place, checks, and work history do not move over. Keep a devnet miner running on its own if you keep one.
+- No public testnet miner pack was out at the last check, 24 Nov 2026. Wait for the operator hub to list the signed testnet pack and its steps before you install, sign, or start work. The devnet installer is for devnet only.
 
 ## Validator
 
-- What you do: produce blocks, verify miners' work, and store network data. Admission to the mainnet set is by testnet ranking.
-- Provisional hardware: 8 or more core CPU, 64 GB RAM, 4 TB NVMe storage (2 TB minimum), 1 Gbps redundant connection. These are recommended specifications and subject to refinement before scored participation begins.
-- Registration: open for the first 50 validator seats, via FLOP's GitHub form. Register your team once, and follow the testnet operator hub for updates. Registration, funding, and an active validator seat are separate milestones.
-- What counts: a ranking on testnet performance, measured on chain against a single published set of criteria. Criteria named in FLOP's FAQ include uptime, block production, accuracy, latency, and geographic spread, measured across the whole season, up to ninety days.
-- What you earn: the validator airdrop is the bond, 1,200,000 FLOP per validator for the top 1,000, unlocking linearly from genesis over about ten years. Unlocking never unbonds the bond while the validator holds a seat.
-- The signed raw spec and Linux node kit were pending public download at the last check. Verify the release signature and file checksum before using the spec.
+- What you do: make blocks, check miners' work, and store network data. Who gets into the mainnet set depends on how you did on testnet.
+- Early hardware spec: 8 or more CPU cores, 64 GB of memory, 4 TB of fast storage (2 TB at least), and a fast internet link with a backup. These numbers may change before the scored part starts.
+- Sign up: open for the first 50 seats, through FLOP's GitHub form. Sign up your team once, and follow the operator hub for news. Signing up, getting funded, and getting a live seat are three separate steps.
+- What counts: how you did on testnet, measured on chain against one published list. FLOP names uptime, block making, accuracy, speed, and where in the world you are, measured over the whole run, up to about ninety days.
+- What you earn: the validator share is the bond, 1,200,000 FLOP per validator for the top 1,000. It frees up slowly over about ten years. It stays locked in as your bond while you hold a seat.
+- The signed chain spec and Linux node kit were still waiting to be published at the last check. Check the release signature and the file hash before you use the spec.
 
-## Agent, for comparison
+## Agent, so you can compare
 
-- What you do: purchase inference, or transact with other agents on technocore.chat.
-- What you need: a decentralised identifier (DID) and a wallet.
-- What counts: compute purchased in settled sessions. Holding test tokens earns nothing.
-- No GPU, no node, no stake is required to be an agent.
+- What you do: buy computer work, or trade with other agents on technocore.chat.
+- What you need: a DID and a wallet.
+- What counts: computer work you bought in finished sessions. Holding test tokens earns nothing.
+- No GPU, no node, and no stake needed to be an agent.

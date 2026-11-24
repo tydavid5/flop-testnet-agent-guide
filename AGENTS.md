@@ -24,19 +24,20 @@ submission or post. Help me prepare for the FLOP testnet as an agent, and end wi
 9. Do not route spend to a miner under common control, and do not split activity across wallets to game scoring. That is scored as one participant and is not credited.
 10. Report what you checked, what changed, and what you did not verify. Do not invent a success.
 
-## Facts, checked 24 November 2026, 19:30 WAT
+## Facts, checked 24 November 2026, 20:15 WAT
 
 - Testnet is live, unscored opening, opened 24 Nov 2026. Chain ID `flop_testnet`. RPC `wss://testnet.flop.network/`. Genesis `0x918abd58fb16306b30ef3886514cfaebffecb4de43e82b6f8ec4795c43cfd800`. Explorer testnet.flopscan.io.
 - Scored phase has not started. No activation block or date is announced. Earlier activity earns zero, with no backfill.
-- Final testnet faucet limits are not announced. No verified public Self claim exists at the opening.
-- Testnet runs runtime spec version 1014035. SDK 0.10.0 admits 1014035. SDK 0.9.0 stops at 1014034. Use 0.10.0 for testnet chain work.
+- Final testnet faucet limits are not announced. No verified public Self claim exists at the opening. Getting faucet money does not reserve a gateway place. The gateway has its own rolling 24 hour limit.
+- Testnet runs runtime spec version 1014035. SDK 0.10.0 admits 1014035. SDK 0.9.0 stops at 1014034. Use 0.10.0 for testnet chain work. Python `flop-sdk` 0.3.5 also admits 1014035. Use 0.3.5, not the older 0.3.2 in the docs.
 - Docs baseline, 20 Nov 2026: client 0.2.2, contracts 0.1.2, SDK 0.7.1, Pi 0.3.3, CLI 0.7.0, Python flop-sdk 0.3.2. Registry latest, 24 Nov 2026: SDK 0.10.0, CLI 0.8.2, Pi 0.3.5, Python flop-sdk 0.3.5. Check the registry live before you install.
-- Gateway base URL is `https://api.flop.network/v1`. Listing models needs no key. Chat completions need an API key. At the last live check, 24 Nov 18:24 UTC, the models API returned 3 models, all labelled devnet: `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`. List again before you use a model hash.
-- Hosted MCP is `https://mcp.flop.network/mcp`, read only. It never exposes `flop_run_session`. A local write enabled MCP provides that tool.
-- Agent airdrop pool, draft: 1,200,000,000 FLOP, pro rata to compute purchased in settled sessions. Agent allocation is locked, spendable only on compute, unlocking 3 FLOP spent to 1 FLOP unlocked.
+- Gateway base URL is `https://api.flop.network/v1`. Listing models needs no key. Chat completions need an API key. At the last live check, 24 Nov 20:15 WAT, the models API returned 3 models, all labelled devnet: `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`. List again before you use a model hash.
+- Hosted MCP is `https://mcp.flop.network/mcp`, read only. It never exposes `flop_run_session`. A local write enabled MCP provides that tool, per FLOP's direct session guide.
+- Agent airdrop pool, draft: 1,200,000,000 FLOP, shared out based on computer work bought in finished sessions. Agent share is locked, spendable only on computer work, unlocking 3 FLOP spent to 1 FLOP unlocked.
 - Session request fields, five: model weight hash, maximum latency, compute in FLOPs, confidentiality flag, fee.
-- Dispute bond: 100 FLOP, forfeited if frivolous. Upheld fraud refunds the agent escrow and slashes the miner in full.
+- Dispute bond: 100 FLOP, lost if the challenge is frivolous. If the challenge is upheld, the agent gets its escrow back and the miner is slashed in full.
 - Block reward: 96 FLOP per one second block, split 75 percent miners, 10 percent validators, 10 percent agents and brokers, 5 percent staking rewards. Inference fees split 85 percent miner, 15 percent validator.
+- The CLI `run` command needs `--max-flop`. That is a ceiling, not a price. On a friendly close, the miner can take the whole amount you set, so set it close to the real cost.
 
 ## Steps, in order
 
@@ -55,7 +56,7 @@ Official page: https://ask.flop.finance/docs/sdk-references
 
 ### 3. Create a DID, only if the human asks
 
-Use the official signer from `flop-labs/technocore-chat` only. Verify the repo URL before you run anything. Generate once, publish the public DID only, never the seed. Record a signed check in to the lobby only if the human asks. Creating a DID earns nothing by itself.
+Use the official signer from `flop-labs/technocore-chat` only, with Python 3.12 or later, run with `uv run scripts/sign.py`. Verify the repo URL before you run anything. Generate once, publish the public DID only, never the seed. Sign the cleaned text, not the raw text, or the server will refuse it with a 403. Nonces must go up each time for the same key in the same room. Messages are at most 4,096 characters, notes at most 8,192. Record a signed check in to the lobby only if the human asks. Creating a DID earns nothing by itself.
 
 Guide: `docs/03-did-technocore.md`
 Official repo: https://github.com/flop-labs/technocore-chat
@@ -68,7 +69,7 @@ Official page: https://ask.flop.finance/docs/sdk-references
 
 ### 5. Budget the agent
 
-Use a derived agent key with a spending limit and an expiry. Never the owner key. SDK functions: `createAgentWallet`, `fundAgentWallet`, `agentTransfer`, `ownerWithdraw`, `createSession`, `executeViaSession`. For a single session, the CLI `--max-flop` flag sets the escrow ceiling.
+Use a derived agent key with a spending limit and an expiry. Never the owner key. SDK functions: `createAgentWallet`, `fundAgentWallet`, `agentTransfer`, `ownerWithdraw`, `createSession`, `executeViaSession`. For a single session, the CLI `run` command needs `--max-flop`, which sets the escrow ceiling. Set it close to the real cost, because a friendly close can spend the whole amount.
 
 ### 6. Run a direct session, verify the receipt
 

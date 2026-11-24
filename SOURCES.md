@@ -6,27 +6,43 @@ Every factual claim in this guide should trace to one of these sources. FLOP's o
 
 - Testnet page, flop.finance/testnet. Live, unscored opening, opened 24 Nov 2026. Six founding validators. RPC `wss://testnet.flop.network/`. Genesis hash `0x918abd58fb16306b30ef3886514cfaebffecb4de43e82b6f8ec4795c43cfd800`. Registration open for the first 50 validator seats. Timeline, roles, hardware, onboarding, what counts, one participant one score, independent demand only, fraud forfeits, security disclosure to security@flop.finance.
 - Testnet status, ask.flop.finance/networks/testnet. Chain ID `flop_testnet`. Bootnodes EU and SG. Raw spec `flop_testnet-918abd58fb16306b.raw.json`, SHA-256 `485ecb44635609ab261ea3002c3c9fdc7a5dab38caf28a86f654cadf443893be`. Signed raw spec and Linux node kit pending. No verified public Self claim at the opening. Earning begins at a publicly announced finalized activation block of a future tested runtime upgrade. No announced block or date yet. Earlier activity earns zero, with no backfill. SDK 0.9.0 named on that page, with a runtime allowlist stopping at 1014034 and an opening runtime of 1014035. MCP endpoint and model API listed, with a note that a listing does not establish testnet mining or settlement.
-- Agent onboarding FAQ, docs.flop.network/docs/agent-onboarding. Wallet enrollment cap, rolling 24 hour window. Faucet limits, final testnet limits not announced. Devnet Self and BrightID tier: 500 FLOP base grant, up to 2,000 FLOP per grant, 2,000 FLOP rolling seven day cap, 24 hour cooldown. Faucet grant does not earn airdrop credit. Devnet grants and spend earn no airdrop credit.
+- Agent onboarding FAQ, docs.flop.network/docs/agent-onboarding. Wallet enrollment cap, rolling 24 hour window. Faucet funds and gateway allowances are separate. Funding a wallet does not reserve an enrollment slot. Faucet limits, final testnet limits not announced. Devnet Self and BrightID tier: 500 FLOP base grant, up to 2,000 FLOP per grant, 2,000 FLOP rolling seven day cap, 24 hour cooldown. Faucet grant does not earn airdrop credit. Devnet grants and spend earn no airdrop credit.
 - SDK and package references, ask.flop.finance/docs/sdk-references. Baseline `2026-11-20-sdk-0.7.1-cli-0.7.0`, recorded 20 Nov 2026. Client 0.2.2, contracts 0.1.2, SDK 0.7.1, Pi 0.3.3, CLI 0.7.0, Python flop-sdk 0.3.2. Gateway base URL `https://api.flop.network/v1`. Hosted MCP `https://mcp.flop.network/mcp`, read only. SDK functions, agent wallet functions, `runDirectSession`, HTLC TEE requirement, Pi peer requirements. No Rust crates, Go module, agent SDK, gateway core, x402 types or Hermes plugin from FLOP.
 - Tokenomics and supply FAQ, docs.flop.network/docs/tokenomics-and-supply. Block reward 96 FLOP, split 75, 10, 10, 5. Inference fees 85 percent miner, 15 percent validator. Genesis pool 4,400,000,000 FLOP: miners 1,200,000,000, agents 1,200,000,000, validators 1,200,000,000, reserve 800,000,000. Agent unlock 3 to 1 spend to unlock. Miner 25 percent liquid, rest earn to unlock 1 to 1. Validator bond linear unlock over about ten years. Vouchers, not testnet balances, are the canonical record. No conversion formula in advance.
 - Protocol parameters, ask.flop.finance/docs/protocol-parameters. Block reward 96 FLOP, era 0. Dispute bond 100 FLOP. Audit rate 2.5 percent, challenge window about 7 days, response deadline 2 hours, fraud slash 100 percent.
+- Technocore signer, raw.githubusercontent.com/flop-labs/technocore-chat/main/scripts/sign.py, read 24 Nov 2026 20:10 WAT. Requires Python 3.12 or later, run with `uv run`. Key from `--seed` or `SIGN_SEED`: 64 hex characters used directly, anything else is SHA-256 hashed. Signed message is `<room>|<nonce>|<text-after-sweep>`, note is `<ns>|<key>|<nonce>|<value-after-sweep>`. Sweep turns invisible characters into spaces and trims the ends. Sign the raw text and the server answers 403. Nonces are 1 to 19 digits and must count up per key per room. Messages at most 4,096 characters, notes at most 8,192. Signature is 86 unpadded base64url characters. DID note path is the first 16 lowercase hex characters of SHA-256 of the DID text, split as `/kv/did-<first 2>/<next 14>`.
 
 ## Live registry and API checks, run 24 November 2026
 
-- npm registry, `@flop-labs/sdk` latest 0.10.0, checked 19:25 WAT via registry.npmjs.org. Description: TypeScript SDK for the FLOP Network, HTLC workflows, PoUI proofs, and account management.
-- npm registry, `@flop-labs/cli` latest 0.8.2, `@flop-labs/pi` latest 0.3.5, checked 19:25 WAT.
-- PyPI, `flop-sdk` latest 0.3.5, releases 0.3.0, 0.3.2, 0.3.3, 0.3.4, 0.3.5, checked 19:25 WAT via pypi.org/pypi/flop-sdk/json.
+- npm registry, `@flop-labs/sdk` latest 0.10.0, checked 19:25 WAT and again 20:10 WAT via registry.npmjs.org.
+- npm registry, `@flop-labs/cli` latest 0.8.2, `@flop-labs/pi` latest 0.3.5, checked 19:25 WAT and again 20:10 WAT.
+- PyPI, `flop-sdk` latest 0.3.5, releases 0.3.0, 0.3.2, 0.3.3, 0.3.4, 0.3.5, checked 19:25 WAT and again 20:10 WAT via pypi.org/pypi/flop-sdk/json.
 - unpkg, `@flop-labs/sdk@0.10.0/dist/runtime-compatibility.js`, checked 19:25 WAT. Admits spec version 1014035. Says the public testnet runs the `flop-testnet` build of 1014035, code hash `0xd62d8278...fa858`, 61 pallets, devnet set minus PaidStorage and voucher pallets 150 to 155.
 - unpkg, `@flop-labs/sdk@0.9.0/dist/runtime-compatibility.js`, checked 19:25 WAT. Admits up to 1014034 only.
-- Models API, `https://api.flop.network/v1/models`, checked live 24 Nov 18:24 UTC. Returned 3 models, all labelled devnet, with model hashes listed in the README. Pricing and capacity fields were live in the response. The response named devnet in the model names and in `source: devnet-nominal`.
-- RPC genesis POST, `https://testnet.flop.network/`, tried from this VM 24 Nov 19:20 to 19:30 WAT. Timed out twice at 15 seconds, then returned HTTP 429 on a 30 second attempt. Reported honestly in the README. The endpoint and the expected hash come from the official testnet pages, not from a successful call here.
+- Python wheel, `flop-sdk` 0.3.5, checked 24 Nov 2026 20:10 WAT from the published PyPI wheel. Its `SUPPORTED_SPEC_VERSIONS` list ends at 1,014,035, with range 1,013,000 to 1,014,035. So 0.3.5 accepts the testnet runtime, unlike the older 0.3.2 in the docs.
+- CLI tarball, `@flop-labs/cli` 0.8.2, checked 24 Nov 2026 20:10 WAT. The `run` command needs `--max-flop`, described as "Maximum escrow in FLOP", and must be a positive decimal with at most 18 fractional digits. The `direct` command says per completion channel escrow, and that a cooperative close can spend the entire amount.
+- Models API, `https://api.flop.network/v1/models`, checked live 24 Nov 18:24 UTC and again 20:10 WAT. Returned 3 models both times, all labelled devnet, with model hashes listed in the README.
+- RPC genesis POST, `https://testnet.flop.network/`, tried from this VM 24 Nov 19:20 to 19:30 WAT. Timed out twice at 15 seconds, then returned HTTP 429 on a 30 second attempt, with body "Too many connections. Please try again later." Reported honestly in the README. The endpoint and the expected hash come from the official testnet pages, not from a successful call here.
 
 ## Secondary sources, used only where noted
 
 - Flop Network News, Build an AI Agent on Flop Network, last updated 14 Nov 2026. Agent integration guide, agent onboarding FAQ, and SDK references as they stood then. Used for the five field session request, the `runDirectSession` example, agent wallet functions, and the MCP and Pi notes. Every number from that page was cross checked against the official pages above before it was kept.
 - Flop Network News, FLOP SDK and CLI Guide, updated 24 Nov 2026. Noted that npm latest for SDK was 0.9.0 on 23 Nov, and that the docs baseline still listed 0.7.1 on 20 Nov. This guide checked the registry again on 24 Nov evening and found 0.10.0, which supersedes that note.
-- GitHub, flop-labs/technocore-chat. Official Technocore source and signer. Used for the DID steps. No code from that repo is copied here.
+- GitHub, flop-labs/technocore-chat. Official Technocore source and signer. Used for the DID steps, and read directly for this audit. No code from that repo is copied here.
 - GitHub search, 24 Nov 2026. A competing guide, flopnews26/flop-testnet-guide, created 24 Nov 11:03 UTC, still says the testnet is planned and that the chain spec, genesis, bootnodes and RPC are not published yet. That was true before launch and is wrong after it. This guide corrects that, with the live official pages as the source.
+
+## Audit on 24 November 2026, 20:15 WAT
+
+A second check found and fixed these issues in the first version:
+
+- The DID doc said to use Python 3.10 or later. The official tool needs Python 3.12 or later. Fixed.
+- The DID doc gave the old unsigned registry address and left out the signed lane. Fixed to the official `say-signed` and `set-signed` addresses, with the sweep, the nonce rule, and the message and note limits.
+- The DID doc did not say the seed from this repo works with the official tool. It does, because it is 64 hex characters. Added.
+- The README said to use Python `flop-sdk` 0.3.2 from the docs. Version 0.3.5 was checked in the published wheel and it accepts runtime 1014035, so 0.3.5 is now the testnet recommendation. Fixed.
+- The README said the CLI `--max-flop` flag sets the escrow ceiling, but did not say a friendly close can spend the whole amount. Added, checked in the published CLI 0.8.2.
+- The README said the listing example only tries a chat call if a key is set. The listing script makes no chat call at all. Fixed in the first push, and checked again here.
+- The README did not say that faucet money does not reserve a gateway place. Added, from the onboarding FAQ.
+- The local MCP write tool claim is now marked as per FLOP's direct session guide, not as a live check by this guide.
 
 ## What was not verified
 

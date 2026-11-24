@@ -7,6 +7,8 @@ Install: pip install cryptography
 Usage: python3 examples/did-key.py
 Save the seed privately. Never post it, never paste it into an issue,
 a form, or a chat. Creating a DID earns nothing by itself.
+The seed printed here is 64 hex characters, so it works with the
+official sign.py tool too, with --seed or SIGN_SEED.
 """
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives import serialization

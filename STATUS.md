@@ -1,5 +1,19 @@
 # Status log
 
+## 24 November 2026, 20:15 WAT
+
+Second check, after the first publish. The guide was re-read line by line, and the official pages, registries, models API, SDK files, CLI tarball, Python wheel, and Technocore signer were checked again.
+
+Fixes in this update:
+
+- DID steps now use Python 3.12 or later, with `uv run`, and use the signed lane, with the sweep, the nonce rule, and the message and note limits.
+- Python `flop-sdk` testnet recommendation is now 0.3.5, not 0.3.2, after checking the published wheel. It accepts runtime 1014035.
+- CLI `--max-flop` now says plainly that a friendly close can spend the whole amount you set.
+- Added that faucet money does not reserve a gateway place, from the onboarding FAQ.
+- Words were made simpler and more human throughout the README and the DID and operator docs.
+- Models API checked again tonight: still 3 models, same hashes. SDK, CLI, Pi, and Python versions unchanged tonight: 0.10.0, 0.8.2, 0.3.5, and 0.3.5.
+- All example scripts run again. See examples/README.md.
+
 ## 24 November 2026, 19:30 WAT
 
 - Testnet live, unscored opening. Scored phase not started, no activation block announced.
