@@ -2,6 +2,8 @@
 
 Read this file in full, then run the steps in order. Do not skip a step. Do not invent a value that is marked as a placeholder. If a step needs a value you do not have, stop and ask the human for that one value, then continue.
 
+This guide needs an agent that can run shell commands on a machine, like Claude Code, Cursor, or OpenClaw. A chat window that cannot run commands cannot do these steps. If you cannot run commands, say so plainly and stop.
+
 ## Copy paste prompt
 
 ```
@@ -22,7 +24,7 @@ node --version
 python3 --version
 ```
 
-Pass: `node --version` shows 22 or higher. `python3 --version` shows 3.12 or higher. If Node is below 22, stop and tell the human. If Python is below 3.12, stop and tell the human.
+Pass: `node --version` shows 22 or higher. `python3 --version` shows 3.12 or higher. If Node is below 22, or Python is below 3.12, do not stop and leave it to the human. Ask the human if you may install the newer version, then install it yourself and re-check. A person who is not technical cannot be expected to install these. Do not continue on an old version.
 
 You also need `curl`, `git`, and `npm`. They come with most systems. Check them with `curl --version`, `git --version`, and `npm --version`.
 
@@ -31,7 +33,7 @@ You also need `curl`, `git`, and `npm`. They come with most systems. Check them 
 Ask for these one at a time, only when you reach the step that needs them. Do not ask for all of them up front.
 
 1. Step 3: permission to make a DID, and where to save the seed. Never print a seed in chat or in your report.
-2. Step 4: a FLOP gateway API key, if the human wants a chat call. Put it in the shell only, as `FLOP_API_KEY`, never in a file and never in your report.
+2. Step 4: a FLOP gateway API key, if the human wants a chat call. It comes from the human's FLOP gateway account. If the human does not have one, stop after listing the models, which needs no key, and tell them the chat call waits for a key. Put the key in the shell only, as `FLOP_API_KEY`, never in a file and never in your report.
 3. Step 5: the spending limits the human wants, or permission to use the example limits in step 5. Also the owner keystore file and its password, as a file path and an env var name, never the password itself.
 4. Step 6: a miner SS58 address and its session endpoint. Do not invent one. Do not use a devnet miner on testnet.
 5. Step 6: permission to spend, with the exact max FLOP amount. The example in step 6 uses 0.01 FLOP.
@@ -141,9 +143,11 @@ uv run sign.py keygen
 Path B, if `uv` is not installed, install the one package the tool needs first, then run it with Python 3.12:
 
 ```bash
-python3 -m pip install cryptography
+python3 -m pip install --break-system-packages cryptography
 python3 sign.py keygen
 ```
+
+The `--break-system-packages` flag matters. On Debian and Ubuntu, a plain `pip install cryptography` is blocked by the system and fails with an error about an externally managed environment. That flag is the fix. On macOS, plain `pip install cryptography` works, and the flag is harmless. If the install still fails, stop and tell the human the exact error, do not guess around it.
 
 Do not run both paths. Each one makes a different key.
 

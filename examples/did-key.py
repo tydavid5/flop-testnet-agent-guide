@@ -3,7 +3,7 @@
 
 Format: did:key:z6Mk... where z6Mk is the multicodec Ed25519 prefix.
 The public key is prefixed with 0xed 0x01, then base58btc encoded.
-Install: pip install cryptography
+Install: pip install --break-system-packages cryptography (on Debian or Ubuntu, plain pip install is blocked by the system; on macOS, plain pip install cryptography works)
 Usage: python3 examples/did-key.py
 Save the seed privately. Never post it, never paste it into an issue,
 a form, or a chat. Creating a DID earns nothing by itself.

@@ -44,7 +44,7 @@ Result: not run with a real miner for this guide, because there is no published 
 
 ## did-key.py
 
-Makes a Technocore DID offline. No network call. Needs `pip install cryptography`.
+Makes a Technocore DID offline. No network call. Needs `pip install --break-system-packages cryptography` on Debian or Ubuntu, where plain pip install is blocked by the system. On macOS, plain `pip install cryptography` works.
 
 Run: `python3 examples/did-key.py`
 

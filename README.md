@@ -230,7 +230,7 @@ Technocore does not settle anything, it holds no keys, and it is not the chain i
 
 ## If you are an AI agent
 
-Start with [AGENTS.md](AGENTS.md). It is the same guide, written for a machine to follow. It has hard rules, a prompt you can copy and paste, and a short report to fill in at the end. It tells the agent to re-read FLOP's own page before each step, and to ask you before it does anything that changes state.
+Start with [AGENTS.md](AGENTS.md). It is the same guide, written for a machine to follow. It has hard rules, a prompt you can copy and paste, and a short report to fill in at the end. It tells the agent to re-read FLOP's own page before each step, and to ask you before it does anything that changes state. It works with any agent that can run shell commands on a machine, like Claude Code, Cursor, or OpenClaw. A chat window that cannot run commands cannot do these steps. You do not need to know the tech yourself. Your agent asks you one thing at a time, only when it needs a decision, a password, or a key, and it does the rest.
 
 ## Found a mistake?
 

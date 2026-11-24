@@ -122,7 +122,7 @@ agent() {
   say "Step 1. Make a DID. This makes a key pair on your machine. Save the seed somewhere private, like a password manager. Never put it in a repo, an issue, or a chat."
   if ask "Make a DID with examples/did-key.py?"; then
     if [ "$DRY_RUN" = "0" ] && ! python3 -c "import cryptography" 2>/dev/null; then
-      say "The cryptography package is missing. Install it first: pip install cryptography"
+      say "The cryptography package is missing. Install it first: pip install --break-system-packages cryptography (on Debian or Ubuntu, plain pip install is blocked by the system; on macOS, plain pip install cryptography works)"
       say "Skipping the DID step. Run sh setup.sh --agent again after installing it."
     else
       run_or_print python3 examples/did-key.py

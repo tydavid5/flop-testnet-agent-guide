@@ -1,5 +1,9 @@
 # Status log
 
+## 24 November 2026, 22:20 WAT
+
+End to end test, as a non technical owner would run it, from a fresh clone. Clone, doctor, version check, model list, DID with the official sign.py, and keystore generation all passed. The test caught one real mistake: on Debian and Ubuntu, a plain `pip install cryptography` is blocked by the system (PEP 668) and fails, so AGENTS.md step 3 Path B, setup.sh, did-key.py, and the examples README all gave an install command that does not work there. Fixed everywhere to `pip install --break-system-packages cryptography`, with the macOS note. Three gaps for a non technical owner were also closed: if Node or Python is too old, the agent now asks permission and installs the newer version itself instead of stopping and leaving it to the human; the guide now says plainly it needs an agent that can run shell commands, a chat only window cannot do it; and step 4 now says the API key comes from the human's FLOP gateway account, and if they do not have one the agent stops after listing models. The gateway chat call without a key fails cleanly with "apiKey is required for chat completions", which is the expected stop.
+
 ## 24 November 2026, 22:10 WAT
 
 Seventh check, a full loophole audit of the whole repo, including the new setup script. Seven fixes:
