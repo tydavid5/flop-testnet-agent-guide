@@ -22,7 +22,7 @@ Testnet status: https://ask.flop.finance/networks/testnet
 - Sign up: open for the first 50 seats, through FLOP's GitHub form. Sign up your team once, and follow the operator hub for news. Signing up, getting funded, and getting a live seat are three separate steps.
 - What counts: how you did on testnet, measured on chain against one published list. FLOP names uptime, block making, accuracy, speed, and where in the world you are, measured over the whole run, up to about ninety days.
 - What you earn: the validator share is the bond, 1,200,000 FLOP per validator for the top 1,000. It frees up slowly over about ten years. It stays locked in as your bond while you hold a seat.
-- The signed chain spec and Linux node kit were still waiting to be published at the last check. Check the release signature and the file hash before you use the spec.
+- The signed chain spec and Linux node kit are published now, in release testnet/v0.1.0-early.1 on FLOP Network releases, out 26 Nov 2026. The validator bundle is validator-public-testnet-0.5.0-testnet.2.tar.gz. Check the release signature and the file hash before you use the spec. The miner pack is still not out.
 
 ## Agent, so you can compare
 

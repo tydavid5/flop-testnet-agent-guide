@@ -200,7 +200,7 @@ miner_check() {
     say "No GPU found here. Miners need an NVIDIA GPU with 16 GB or more VRAM per unit."
   fi
   say ""
-  say "Status, 24 Nov 2026: there is no public testnet miner pack, and no supported way to move a devnet miner to testnet. Devnet registration, stake, and calibration do not carry over. Do not install the devnet pack on testnet."
+  say "Status, 26 Nov 2026: there is still no public testnet miner pack, and no supported way to move a devnet miner to testnet. Devnet registration, stake, and calibration do not carry over. Do not install the devnet pack on testnet. The node kit published on 26 Nov is for nodes and validators, not miners."
   say "Next step: register interest at https://flop.finance/apply/miner and wait for the Operator Hub to list the signed testnet pack. This repo watches for it and will say when it drops."
 }
 
@@ -211,7 +211,7 @@ validator_check() {
   df -h . 2>/dev/null | tail -n 1 || true
   say "Validators need 8 or more CPU cores, 64 GB RAM, 4 TB NVMe (2 TB minimum), and a 1 Gbps redundant connection."
   say ""
-  say "Status, 24 Nov 2026: registration is open for the first 50 validator seats, through the operator form at https://github.com/flop-labs/network/issues/new?template=operator-application.yml. The signed testnet validator package is not published yet, so this script does not download or install one. The prep kit is at https://docs.flop.network/testnet-validator-prep/"
+  say "Status, 26 Nov 2026: registration is open for the first 50 validator seats, through the operator form at https://github.com/flop-labs/network/issues/new?template=operator-application.yml. The signed testnet validator bundle is published now, validator-public-testnet-0.5.0-testnet.2.tar.gz, in release testnet/v0.1.0-early.1 at https://github.com/flop-labs/network/releases. This script does not download or install it, that is a job for the human, after checking the SHA-256 in the release. Detached signatures follow once the release signing key is published. The prep kit is at https://docs.flop.network/testnet-validator-prep/"
   say "Registration, funding, and an active seat are separate steps. Being registered does not mean you have a seat."
 }
 

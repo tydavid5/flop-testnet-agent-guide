@@ -8,7 +8,7 @@ Checks and sets up, without spending. `sh setup.sh --doctor` checks versions, ch
 
 Run: `sh setup.sh --doctor`
 
-Result on 24 Nov 2026, 21:53 WAT: doctor ran clean, versions matched, chain reported MATCH, models listed 3, after briefly listing 2. Miner check found no GPU here and reported no public testnet miner pack yet. Validator check reported 4 CPU cores and 7.7 GB RAM here, below the validator spec, and no signed testnet validator package yet.
+Result on 24 Nov 2026, 21:53 WAT: doctor ran clean, versions matched, chain reported MATCH, models listed 3, after briefly listing 2. Miner check found no GPU here and reported no public testnet miner pack yet. Validator check reported 4 CPU cores and 7.7 GB RAM here, below the validator spec, and no signed testnet validator package yet. Update 26 Nov 2026: the signed node kit and validator bundle are published now, in release testnet/v0.1.0-early.1, but the miner pack is still not out.
 
 ## check-chain.sh
 

@@ -2,7 +2,7 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 24 November 2026, 22:25 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 26 November 2026, 12:45 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
 
 **Fastest start:** clone this repo and run `sh setup.sh --doctor`. It checks versions, chain, and models, and changes nothing. For a full agent setup it asks first at each step. It never asks for a seed, never spends, and never runs a paid session. Run the scripts with `sh`, as shown here: the files are stored without the executable bit on GitHub, so `./setup.sh` will not run until you run `chmod +x setup.sh` first. See [setup.sh](setup.sh).
 
@@ -20,7 +20,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 
 ## Where things stand right now
 
-| What | What is true on 24 Nov 2026, 22:25 WAT |
+| What | What is true on 26 Nov 2026, 12:45 WAT |
 | --- | --- |
 | Testnet | Live, but not scored yet. Opened 24 Nov 2026. |
 | Chain name | `flop_testnet` |
@@ -29,7 +29,8 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 | Explorer | FLOPScan at testnet.flopscan.io |
 | Bootnodes | Two are listed, one in Europe and one in Singapore. See the status page for the full addresses. |
 | Chain spec file | `flop_testnet-918abd58fb16306b.raw.json`, SHA-256 `485ecb44635609ab261ea3002c3c9fdc7a5dab38caf28a86f654cadf443893be` |
-| Signed node kit | Not out yet. Still waiting for it. |
+| Signed node kit | Out. Published 26 Nov 2026 as release testnet/v0.1.0-early.1 on FLOP Network releases. It has the raw chain spec, the Linux node archive `flop-testnet-918abd58fb16306b-linux-amd64.tar.gz`, the runtime wasm, and the validator bundle `validator-public-testnet-0.5.0-testnet.2.tar.gz`. Detached signatures follow once the release signing key is published. |
+| Miner pack | Still not out. The Operator Hub still says the signed operator kits are pending publication, and the miner page still says there is no public testnet miner pack. The node kit above is for nodes and validators, not miners. Do not install the devnet pack on testnet. |
 | Scored part | Not started. No start block or date has been announced. Work before that start earns zero, and it will not be counted later. |
 | Faucet limits | Final testnet limits have not been announced. |
 | Human check with Self | No public Self claim has been confirmed yet. Wait for FLOP to announce a working phone check and a testnet grant. |
