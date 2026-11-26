@@ -15,7 +15,7 @@ set -eu
 : "${KEYSTORE:?Set KEYSTORE to the keystore file path}"
 : "${PASSWORD_ENV:?Set PASSWORD_ENV to the env var name holding the keystore password}"
 : "${ENDPOINT:=http://127.0.0.1:8645}"
-npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore "$KEYSTORE" --password-env "$PASSWORD_ENV" session run \
+npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet --keystore "$KEYSTORE" --password-env "$PASSWORD_ENV" session run \
   --miner "$MINER_SS58" \
   --model "$MODEL" \
   --prompt "$PROMPT" \

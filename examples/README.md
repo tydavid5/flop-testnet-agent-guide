@@ -8,7 +8,7 @@ Checks and sets up, without spending. `sh setup.sh --doctor` checks versions, ch
 
 Run: `sh setup.sh --doctor`
 
-Result on 24 Nov 2026, 21:53 WAT: doctor ran clean, versions matched, chain reported MATCH, models listed 3, after briefly listing 2. Miner check found no GPU here and reported no public testnet miner pack yet. Validator check reported 4 CPU cores and 7.7 GB RAM here, below the validator spec, and no signed testnet validator package yet. Update 26 Nov 2026: the signed node kit and validator bundle are published now, in release testnet/v0.1.0-early.1, but the miner pack is still not out.
+Result on 24 Nov 2026, 21:53 WAT: doctor ran clean, versions matched, chain reported MATCH, models listed 3, after briefly listing 2. Miner check found no GPU here and reported no public testnet miner pack yet. Validator check reported 4 CPU cores and 7.7 GB RAM here, below the validator spec, and no signed testnet validator package yet. Update 26 Nov 2026: the signed node kit and validator bundle are published now, in release testnet/v0.1.0-early.1. Update 26 Nov 2026, 21:00 WAT: the testnet miner pack is published now too, listed at https://flop.network/releases/cli/miner-pack-testnet-20261126/README.md, but it is NOT signed, and this guide has not downloaded, installed, or run it.
 
 ## check-chain.sh
 
@@ -24,7 +24,7 @@ Prints the live latest version of each official FLOP package, from npm and PyPI.
 
 Run: `sh examples/check-versions.sh`
 
-Result on 24 Nov 2026, 22:10 WAT: client 0.2.2, contracts 0.1.2, SDK 0.10.0, Pi 0.3.5, CLI 0.8.2, Python flop-sdk 0.3.5. Unchanged all day.
+Result on 26 Nov 2026, 21:00 WAT: client 0.2.2, contracts 0.1.2, SDK 0.13.1, Pi 0.3.5, CLI 0.10.2, Python flop-sdk 0.4.1. FLOP's FAQ says to use SDK 0.11.0 or later and CLI 0.8.3 or later.
 
 ## list-models.mjs
 

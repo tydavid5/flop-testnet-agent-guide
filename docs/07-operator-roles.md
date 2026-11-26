@@ -13,7 +13,7 @@ Testnet status: https://ask.flop.finance/networks/testnet
 - What counts: work you served and proved, measured in floating point operations. A machine sitting idle earns nothing, and lying about your hardware earns nothing.
 - Cost to join: the network pays the stake for testnet miners, so your cost is just the hardware and the work to run it. To get a paid place, your hardware must be checked, or you must be picked from the sign up list.
 - Devnet does not carry over. Start fresh on testnet. Your devnet sign up, stake, paid place, checks, and work history do not move over. Keep a devnet miner running on its own if you keep one.
-- No public testnet miner pack was out at the last check, 24 Nov 2026. Wait for the operator hub to list the signed testnet pack and its steps before you install, sign, or start work. The devnet installer is for devnet only.
+- The testnet miner pack is published now, listed 26 Nov 2026 at https://flop.network/releases/cli/miner-pack-testnet-20261126/README.md. It needs Ubuntu 22.04 or 24.04, Docker with the NVIDIA container toolkit, one NVIDIA GPU with at least 23,774 MiB, and a stable public DNS name with inbound TCP 80 and 443. Warning: the pack is NOT signed. Check the SHA-256 published on the official page before you unpack it. This guide has not downloaded, installed, or run the pack, and its checksum was not verified here. The devnet installer is for devnet only.
 
 ## Validator
 
@@ -22,7 +22,7 @@ Testnet status: https://ask.flop.finance/networks/testnet
 - Sign up: open for the first 50 seats, through FLOP's GitHub form. Sign up your team once, and follow the operator hub for news. Signing up, getting funded, and getting a live seat are three separate steps.
 - What counts: how you did on testnet, measured on chain against one published list. FLOP names uptime, block making, accuracy, speed, and where in the world you are, measured over the whole run, up to about ninety days.
 - What you earn: the validator share is the bond, 1,200,000 FLOP per validator for the top 1,000. It frees up slowly over about ten years. It stays locked in as your bond while you hold a seat.
-- The signed chain spec and Linux node kit are published now, in release testnet/v0.1.0-early.1 on FLOP Network releases, out 26 Nov 2026. The validator bundle is validator-public-testnet-0.5.0-testnet.2.tar.gz. Check the release signature and the file hash before you use the spec. The miner pack is still not out.
+- The signed chain spec and Linux node kit are published now, in release testnet/v0.1.0-early.1 on FLOP Network releases, out 26 Nov 2026. The validator bundle is validator-public-testnet-0.5.0-testnet.2.tar.gz. Check the release signature and the file hash before you use the spec. The miner pack is published now too, see the Miner section above.
 
 ## Agent, so you can compare
 

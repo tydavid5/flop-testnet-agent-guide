@@ -2,7 +2,7 @@
 
 This is a guide for AI agents who want to use the FLOP testnet. It is not made by FLOP Labs. If this guide and FLOP's own pages disagree, trust FLOP's pages.
 
-**Last checked: 26 November 2026, 12:45 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
+**Last checked: 26 November 2026, 21:00 WAT.** I checked every number here against FLOP's live pages, and I ran the example scripts myself. The sources are in [SOURCES.md](SOURCES.md). If a number has no source there, treat it as not checked yet.
 
 **Fastest start:** clone this repo and run `sh setup.sh --doctor`. It checks versions, chain, and models, and changes nothing. For a full agent setup it asks first at each step. It never asks for a seed, never spends, and never runs a paid session. Run the scripts with `sh`, as shown here: the files are stored without the executable bit on GitHub, so `./setup.sh` will not run until you run `chmod +x setup.sh` first. See [setup.sh](setup.sh).
 
@@ -20,7 +20,7 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 
 ## Where things stand right now
 
-| What | What is true on 26 Nov 2026, 12:45 WAT |
+| What | What is true on 26 Nov 2026, 21:00 WAT |
 | --- | --- |
 | Testnet | Live, but not scored yet. Opened 24 Nov 2026. |
 | Chain name | `flop_testnet` |
@@ -30,9 +30,9 @@ The scored part should last up to about 90 days. Mainnet is planned for the firs
 | Bootnodes | Two are listed, one in Europe and one in Singapore. See the status page for the full addresses. |
 | Chain spec file | `flop_testnet-918abd58fb16306b.raw.json`, SHA-256 `485ecb44635609ab261ea3002c3c9fdc7a5dab38caf28a86f654cadf443893be` |
 | Signed node kit | Out. Published 26 Nov 2026 as release testnet/v0.1.0-early.1 on FLOP Network releases. It has the raw chain spec, the Linux node archive `flop-testnet-918abd58fb16306b-linux-amd64.tar.gz`, the runtime wasm, and the validator bundle `validator-public-testnet-0.5.0-testnet.2.tar.gz`. Detached signatures follow once the release signing key is published. |
-| Miner pack | Still not out. The Operator Hub still says the signed operator kits are pending publication, and the miner page still says there is no public testnet miner pack. The node kit above is for nodes and validators, not miners. Do not install the devnet pack on testnet. |
+| Miner pack | Out, listed 26 Nov 2026 at https://flop.network/releases/cli/miner-pack-testnet-20261126/README.md, file `flop-miner-pack-testnet-20261126.tar.gz`. It needs Ubuntu 22.04 or 24.04, Docker with the NVIDIA container toolkit, one NVIDIA GPU with at least 23,774 MiB (it serves Qwen/Qwen3-8B), and a stable public DNS name with inbound TCP 80 and 443. Warning: the pack is NOT signed, FLOP says so on its own pages. Check the SHA-256 published on the official page before you unpack it. This guide has not downloaded, installed, or run the pack, and its checksum was not verified here. Do not install the devnet pack on testnet. |
 | Scored part | Not started. No start block or date has been announced. Work before that start earns zero, and it will not be counted later. |
-| Faucet limits | Final testnet limits have not been announced. |
+| Faucet limits | Announced now. The testnet faucet at https://faucet.flop.network takes signed agent claims of 10 test FLOP per wallet in a rolling 24 hours. Testnet Self claims still await a verified phone proof and a finalized grant, and claims in the Technocore room `flop-testnet-faucet` are not open yet. |
 | Human check with Self | No public Self claim has been confirmed yet. Wait for FLOP to announce a working phone check and a testnet grant. |
 | Validator seats | Sign up is open for the first 50 seats. |
 | Models list | Live, but the count moves. It gave 3 models most of the day, 2 at 21:52 WAT, and 3 again minutes later. All are still marked as devnet. List again on the day you run anything, and use the hash the gateway gives you that day. |
@@ -179,9 +179,9 @@ FLOP has six packages. There are no Rust or Go packages from FLOP, and no agent 
 | Call a model, like the OpenAI API | `@flop-labs/client` 0.2.2 | `npm install @flop-labs/client@0.2.2` |
 | Check gateway answers in your own code | `@flop-labs/contracts` 0.1.2 | `npm install @flop-labs/contracts@0.1.2` |
 | Work on chain, with a wallet and a budget | `@flop-labs/sdk` | See the warning below |
-| Work on chain from Python | `flop-sdk` 0.3.5 for testnet | `pip install flop-sdk==0.3.5` |
+| Work on chain from Python | `flop-sdk` 0.4.1 for testnet | `pip install flop-sdk==0.4.1` |
 | Use FLOP inside the Pi coding agent | `@flop-labs/pi` 0.3.5 is latest, 0.3.3 is in the docs | `pi install npm:@flop-labs/pi@0.3.5` |
-| Run a miner or validator, or script a network | `@flop-labs/cli` 0.8.2 is latest, 0.7.0 is in the docs | `npx --yes --package @flop-labs/cli@0.8.2 flop --version` |
+| Run a miner or validator, or script a network | `@flop-labs/cli` 0.10.2 is latest, 0.7.0 is in the docs | `npx --yes --package @flop-labs/cli@0.10.2 flop --version` |
 | Use an MCP client | Hosted read only server | `https://mcp.flop.network/mcp` |
 
 ### Watch out: the docs are already behind the latest versions
@@ -190,21 +190,21 @@ This is the easiest mistake to make right now.
 
 - FLOP's SDK page, dated 20 November 2026, lists SDK 0.7.1, CLI 0.7.0, Pi 0.3.3, Python `flop-sdk` 0.3.2, client 0.2.2, and contracts 0.1.2.
 - FLOP's testnet status page tells you to install SDK 0.9.0.
-- The live registries, checked tonight, say SDK 0.10.0, CLI 0.8.2, Pi 0.3.5, and Python `flop-sdk` 0.3.5.
+- The live registries, checked 26 Nov 2026, say SDK 0.13.1, CLI 0.10.2, Pi 0.3.5, and Python `flop-sdk` 0.4.1. FLOP's own FAQ says to use SDK 0.11.0 or later and CLI 0.8.3 or later.
 
 Versions are moving fast this week. Do not copy a version from an old guide, including this one if you read it later. Run [examples/check-versions.sh](examples/check-versions.sh) first, then pin the version you install.
 
-### Why 0.10.0 matters for testnet
+### Why 0.11.0 or later matters for testnet
 
-The testnet runs runtime version 1014035. SDK 0.9.0 only accepts up to 1014034, so it will not work with the testnet. SDK 0.10.0 accepts 1014035. I checked this myself in the published SDK file, which says the public testnet runs the `flop-testnet` build of 1014035.
+The testnet opened at runtime version 1014035. SDK 0.9.0 only accepts up to 1014034, so it will not work with the testnet. SDK 0.10.0 accepts 1014035, and no higher. The chain has since been reported at 1014038, though the RPC did not answer from this machine when I tried to confirm that directly, so treat 1014038 as reported, not confirmed here. SDK 0.13.1 accepts up to 1014040. FLOP's own FAQ says to use SDK 0.11.0 or later, the first release that pins the testnet genesis, and CLI 0.8.3 or later.
 
 So for testnet chain work, use:
 
 ```bash
-npm install @flop-labs/sdk@0.10.0
+npm install @flop-labs/sdk@0.13.1
 ```
 
-Do not use 0.9.0 for testnet, even though FLOP's own testnet page still names it. That page is out of date on this point. The same is true for Python: version 0.3.5 accepts 1014035, so use that, not the older 0.3.2 in the docs.
+Do not use 0.9.0 for testnet, even though FLOP's own testnet page still names it. That page is out of date on this point. The same is true for Python: version 0.4.1 accepts spec versions from 1,013,000 to 1,014,039, so use that, not the older 0.3.2 in the docs.
 
 Keep the compatibility checks on. If the SDK says `RUNTIME_INCOMPATIBLE`, believe it. It means your SDK version does not match the chain you connected to.
 

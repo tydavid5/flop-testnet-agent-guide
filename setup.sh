@@ -3,9 +3,11 @@
 #
 # This script checks, it does not spend. It never asks for a seed, never
 # prints a seed, never runs a paid session, and never sends money.
-# A paid session needs a testnet miner, and no public testnet miner pack
-# is published yet. When one is out, the command for it is in AGENTS.md
-# step 6, and it needs your say so first.
+# A paid session needs a testnet miner. The testnet miner pack is
+# published now, at https://flop.network/releases/cli/miner-pack-testnet-20261126/README.md.
+# It is NOT signed, and this script does not download or install it.
+# The command for a paid session is in AGENTS.md step 6, and it needs
+# your say so first.
 #
 # Usage, from the repo root:
 #   sh setup.sh --doctor            check everything, change nothing
@@ -15,8 +17,8 @@
 #   sh setup.sh --dry-run --agent   print the commands, run none of them
 #
 # Versions this script uses, checked live 24 Nov 2026:
-#   CLI @flop-labs/cli 0.8.2, SDK @flop-labs/sdk 0.10.0, Pi 0.3.5,
-#   client 0.2.2, contracts 0.1.2, Python flop-sdk 0.3.5.
+#   CLI @flop-labs/cli 0.10.2, SDK @flop-labs/sdk 0.13.1, Pi 0.3.5,
+#   client 0.2.2, contracts 0.1.2, Python flop-sdk 0.4.1.
 # The docs baseline, CLI 0.7.0 and SDK 0.9.0, does not work on the live
 # testnet runtime, 1014035. Do not use it.
 
@@ -83,7 +85,7 @@ doctor() {
     say "would run: python3 --version, node --version, nvidia-smi"
     exit 0
   fi
-  say "1. Package versions. The live testnet needs SDK 0.10.0 and CLI 0.8.2."
+  say "1. Package versions. The live testnet needs SDK 0.11.0 or later and CLI 0.8.3 or later. Latest tonight: SDK 0.13.1, CLI 0.10.2."
   if sh examples/check-versions.sh; then
     ok "versions match the live testnet"
   else
@@ -130,7 +132,7 @@ agent() {
     fi
   fi
   say ""
-  say "Step 2. Make an encrypted keystore for the owner, with the official CLI 0.8.2. The password goes in the shell only, never in a file. Do not use --show-secret, it prints the seed."
+  say "Step 2. Make an encrypted keystore for the owner, with the official CLI 0.10.2. The password goes in the shell only, never in a file. Do not use --show-secret, it prints the seed."
   if [ -f ./agent.json ]; then
     say "A file called ./agent.json already exists. This script will not overwrite it. Delete or rename it yourself first, or use the keystore you already have."
   elif ask "Make a keystore called ./agent.json?"; then
@@ -139,7 +141,7 @@ agent() {
       say "Skipping the keystore step. Run sh setup.sh --agent again after setting it."
     else
       say "Set the password in the shell first: export FLOP_KEY_PASSWORD=<your password>"
-      run_or_print npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet keys generate --name agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
+      run_or_print npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet keys generate --name agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
       say "Keep ./agent.json safe. It is in .gitignore, so it will not be committed."
     fi
   fi
@@ -152,7 +154,7 @@ agent() {
   elif ask "Create a session key with limits 5 and 50?"; then
     say "This step needs your agent wallet address. The script will not run it with a placeholder."
     if [ "$DRY_RUN" = "1" ]; then
-      say "would run: npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate YOUR_AGENT_ADDRESS --tx-limit 5 --daily-cap 50 --ttl 86400 --json"
+      say "would run: npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate YOUR_AGENT_ADDRESS --tx-limit 5 --daily-cap 50 --ttl 86400 --json"
     else
       printf 'Agent wallet address: '
       read -r agent_address
@@ -161,7 +163,7 @@ agent() {
           say "No address given. Skipping this step."
           ;;
         *)
-          npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate "$agent_address" --tx-limit 5 --daily-cap 50 --ttl 86400 --json
+          npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create --delegate "$agent_address" --tx-limit 5 --daily-cap 50 --ttl 86400 --json
           ;;
       esac
     fi
@@ -170,7 +172,7 @@ agent() {
   say "Step 4. Faucet. Honest warning: there is no verified public Self claim on testnet at opening, and the faucet may not answer. If it does not, wait. Do not pay anyone for test FLOP."
   if ask "Try a faucet request for the keystore address?"; then
     if [ "$DRY_RUN" = "1" ]; then
-      say "would run: npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet faucet request YOUR_KEYSTORE_ADDRESS"
+      say "would run: npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet faucet request YOUR_KEYSTORE_ADDRESS"
     else
       printf 'Keystore address from step 2: '
       read -r keystore_address
@@ -179,7 +181,7 @@ agent() {
           say "No address given. Skipping this step."
           ;;
         *)
-          npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet faucet request "$keystore_address"
+          npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet faucet request "$keystore_address"
           ;;
       esac
     fi
@@ -200,8 +202,7 @@ miner_check() {
     say "No GPU found here. Miners need an NVIDIA GPU with 16 GB or more VRAM per unit."
   fi
   say ""
-  say "Status, 26 Nov 2026: there is still no public testnet miner pack, and no supported way to move a devnet miner to testnet. Devnet registration, stake, and calibration do not carry over. Do not install the devnet pack on testnet. The node kit published on 26 Nov is for nodes and validators, not miners."
-  say "Next step: register interest at https://flop.finance/apply/miner and wait for the Operator Hub to list the signed testnet pack. This repo watches for it and will say when it drops."
+  say "Status, 26 Nov 2026: the testnet miner pack is published now, at https://flop.network/releases/cli/miner-pack-testnet-20261126/README.md. It needs Ubuntu 22.04 or 24.04, Docker with the NVIDIA container toolkit, one NVIDIA GPU with at least 23,774 MiB, and a stable public DNS name with inbound TCP 80 and 443. Warning: the pack is NOT signed. Check the SHA-256 published on the official page before you unpack it. This script does not download or install the pack, that is a job for the human, on a machine with a GPU. There is no supported way to move a devnet miner to testnet. Devnet registration, stake, and calibration do not carry over. Do not install the devnet pack on testnet."
 }
 
 validator_check() {

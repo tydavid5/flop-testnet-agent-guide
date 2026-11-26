@@ -51,14 +51,15 @@ Ask for these one at a time, only when you reach the step that needs them. Do no
 9. Do not route spend to a miner under common control, and do not split activity across wallets to game scoring. That is scored as one participant and is not credited.
 10. Report what you checked, what changed, and what you did not verify. Do not invent a success.
 
-## Facts, checked 26 November 2026, 12:45 WAT
+## Facts, checked 26 November 2026, 21:00 WAT
 
 - Testnet is live, unscored opening, opened 24 Nov 2026. Chain ID `flop_testnet`. RPC `wss://testnet.flop.network/`. Genesis `0x918abd58fb16306b30ef3886514cfaebffecb4de43e82b6f8ec4795c43cfd800`. Explorer testnet.flopscan.io.
 - Testnet gateway, from the SDK chain profile: `https://gateway.testnet.flop.network`. Testnet faucet, from the same profile: `https://faucet.testnet.flop.network`. The RPC from this machine is flaky: it timed out at 20:20 WAT, answered cleanly with the exact genesis hash at 21:52 WAT, and returned HTTP 429 again at 22:10 WAT. That does not mean the network is down. Check FLOPScan too.
 - Scored phase has not started. No activation block or date is announced. Earlier activity earns zero, with no backfill.
-- Final testnet faucet limits are not announced. No verified public Self claim exists at the opening. Getting faucet money does not reserve a gateway place. The gateway has its own rolling 24 hour limit.
-- Testnet runs runtime spec version 1014035. SDK 0.10.0 admits 1014035. SDK 0.9.0 stops at 1014034. Use 0.10.0 for testnet chain work. Python `flop-sdk` 0.3.5 also admits 1014035. Use 0.3.5, not the older 0.3.2 in the docs.
-- Docs baseline, 20 Nov 2026: client 0.2.2, contracts 0.1.2, SDK 0.7.1, Pi 0.3.3, CLI 0.7.0, Python flop-sdk 0.3.2. Registry latest, 24 Nov 2026: SDK 0.10.0, CLI 0.8.2, Pi 0.3.5, Python flop-sdk 0.3.5. Check the registry live before you install.
+- Testnet faucet limits are announced now. The faucet at `https://faucet.flop.network` takes signed agent claims of 10 test FLOP per wallet in a rolling 24 hours. No verified public Self claim exists yet, it still awaits a verified phone proof and a finalized grant. Claims in the Technocore room `flop-testnet-faucet` are not open yet. Getting faucet money does not reserve a gateway place. The gateway has its own rolling 24 hour limit.
+- Testnet opened at runtime spec version 1014035. It has since been reported at 1014038, though the RPC did not answer from this machine when that was checked directly, so treat 1014038 as reported, not confirmed here. SDK 0.10.0 admits only up to 1014035. SDK 0.13.1 admits up to 1014040. FLOP's FAQ says to use SDK 0.11.0 or later and CLI 0.8.3 or later. Use 0.11.0 or later for testnet chain work, latest is 0.13.1. Python `flop-sdk` 0.4.1 admits spec versions 1,013,000 to 1,014,039. Use 0.4.1, not the older 0.3.2 in the docs.
+- Docs baseline, 20 Nov 2026: client 0.2.2, contracts 0.1.2, SDK 0.7.1, Pi 0.3.3, CLI 0.7.0, Python flop-sdk 0.3.2. Registry latest, 26 Nov 2026: SDK 0.13.1, CLI 0.10.2, Pi 0.3.5, Python flop-sdk 0.4.1. Check the registry live before you install.
+- The testnet miner pack is published now, listed 26 Nov 2026 at `https://flop.network/releases/cli/miner-pack-testnet-20261126/README.md`, file `flop-miner-pack-testnet-20261126.tar.gz`. It needs Ubuntu 22.04 or 24.04, Docker with the NVIDIA container toolkit, one NVIDIA GPU with at least 23,774 MiB (it serves Qwen/Qwen3-8B), and a stable public DNS name with inbound TCP 80 and 443. The pack is NOT signed, FLOP says so on its own pages. Check the SHA-256 published on the official page before you unpack it. This guide has not downloaded, installed, or run the pack, and its checksum was not verified here. No paid testnet session has been run for this guide.
 - Gateway base URL is `https://api.flop.network/v1`. Listing models needs no key. Chat completions need an API key. At the last live check, 24 Nov 21:53 WAT, the models API returned 3 models, all labelled devnet: `qwen/qwen2.5-0.5b-instruct`, `qwen/qwen3-14b`, `qwen/qwen3-coder-30b-a3b-instruct-fp8`. The count moves during the day, it gave 2 at 21:52 WAT and 3 again minutes later. List again before you use a model hash.
 - Hosted MCP is `https://mcp.flop.network/mcp`, read only. It never exposes `flop_run_session`. A local write enabled MCP provides that tool, per FLOP's direct session guide.
 - Agent airdrop pool, draft: 1,200,000,000 FLOP, shared out based on computer work bought in finished sessions. Agent share is locked, spendable only on computer work, unlocking 3 FLOP spent to 1 FLOP unlocked.
@@ -108,7 +109,7 @@ Run this command exactly, from the repo root:
 sh examples/check-versions.sh
 ```
 
-Pass: it prints client 0.2.2, contracts 0.1.2, SDK 0.10.0, Pi 0.3.5, CLI 0.8.2, Python flop-sdk 0.3.5, or a newer version with a note that it changed. Pin the version it prints. Do not copy a version from an old guide.
+Pass: it prints client 0.2.2, contracts 0.1.2, SDK 0.13.1, Pi 0.3.5, CLI 0.10.2, Python flop-sdk 0.4.1, or a newer version with a note that it changed. Pin the version it prints. Do not copy a version from an old guide.
 
 If the script is not there, because you only have this one file, run these instead:
 
@@ -236,15 +237,15 @@ First, make an encrypted keystore for the owner, if the human does not already h
 
 ```bash
 export FLOP_KEY_PASSWORD="PASTE_PASSWORD_HERE"
-npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet keys generate --name test-agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
+npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet keys generate --name test-agent --type sr25519 --out ./agent.json --password-env FLOP_KEY_PASSWORD --json
 ```
 
 Pass: it prints an address that starts with `5`, and a file `./agent.json` exists. Keep that file safe. Do not use `--show-secret`. That flag prints the seed, and you must never use it.
 
-Next, make the session key with the CLI. This is the runnable path. It was checked live with `--help` on CLI 0.8.2. Replace `AGENT_ADDRESS` with the child agent address the human gave you. The defaults below are the CLI defaults: 5 FLOP per transaction, 50 FLOP per day, and 86,400 blocks, which is about 24 hours at 1 second per block:
+Next, make the session key with the CLI. This is the runnable path. It was checked live with `--help` on CLI 0.10.2. Replace `AGENT_ADDRESS` with the child agent address the human gave you. The defaults below are the CLI defaults: 5 FLOP per transaction, 50 FLOP per day, and 86,400 blocks, which is about 24 hours at 1 second per block:
 
 ```bash
-npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create \
+npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session create \
   --delegate AGENT_ADDRESS \
   --tx-limit 5 \
   --daily-cap 50 \
@@ -256,10 +257,10 @@ Pass: it returns a transaction hash. If it throws `RUNTIME_INCOMPATIBLE`, stop a
 
 Note on limits, so you do not use the wrong ones: the SDK also lists a proposed set of 3.5 FLOP per transaction and 35 FLOP per day. Those are marked in the SDK as proposed and pending approval. They are not the approved limits. The approved calibrated limits are 5 FLOP per transaction and 50 FLOP per day. Use those unless the human gave you different numbers.
 
-The SDK way below is a template, not a live run by this guide. Its function shapes were checked in SDK 0.10.0, but no funded testnet wallet was used to run them here. Use the CLI above first. Only use the SDK code if the human asks for it, and only with a signer loaded from the keystore you just made. Do not paste a seed to make a signer:
+The SDK way below is a template, not a live run by this guide. Its function shapes were checked in SDK 0.10.0 on 24 Nov, but 0.13.1 is now latest, so check the shapes again before you use them, and no funded testnet wallet was used to run them here. Use the CLI above first. Only use the SDK code if the human asks for it, and only with a signer loaded from the keystore you just made. Do not paste a seed to make a signer:
 
 ```bash
-npm install @flop-labs/sdk@0.10.0
+npm install @flop-labs/sdk@0.13.1
 ```
 
 ```js
@@ -313,7 +314,7 @@ The CLI way, run from the repo root, with the keystore from step 5. Set the pass
 
 ```bash
 export FLOP_KEY_PASSWORD="PASTE_PASSWORD_HERE"
-npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session run \
+npx --yes --package @flop-labs/cli@0.10.2 flop --network testnet --keystore ./agent.json --password-env FLOP_KEY_PASSWORD session run \
   --miner 'MINER_SS58_HERE' \
   --model qwen/qwen2.5-0.5b-instruct \
   --prompt 'Say hello.' \
@@ -323,7 +324,7 @@ npx --yes --package @flop-labs/cli@0.8.2 flop --network testnet --keystore ./age
   --json
 ```
 
-Replace `./agent.json` with the human's keystore path if it is different, `MINER_SS58_HERE` with the miner address, and the endpoint with the miner's endpoint if it is not loopback. Do not use `--new-wallet` on testnet. Its help text still says devnet wallet. Use an encrypted keystore instead. If `--via auto` fails because there is no signed offer for that miner, do not switch to `--via force` on your own. Ask the human first, because force waits for a chain acknowledgement and needs a finalized channel open.
+Replace `./agent.json` with the human's keystore path if it is different, `MINER_SS58_HERE` with the miner address, and the endpoint with the miner's endpoint if it is not loopback. Do not use `--new-wallet`. In CLI 0.10.2 it covers devnet or testnet, but it still saves an unencrypted wallet. Use an encrypted keystore instead. If `--via auto` fails because there is no signed offer for that miner, do not switch to `--via force` on your own. Ask the human first, because force waits for a chain acknowledgement and needs a finalized channel open.
 
 Pass: the output names a reply, the same miner you asked for, a channel id, a verified turn count of 1 or more, and a settlement transaction hash.
 
